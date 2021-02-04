@@ -6,6 +6,9 @@ from dartsclone import DoubleArray
 from sortedcontainers import SortedDict
 from sudachipy.dictionarylib.jtypedbytebuffer import JTypedByteBuffer
 from Flags import Flags
+from dictionaryheader import DictionaryHeader
+import dictionaryversion
+import time
 
 
 class DictionaryBuilder:
@@ -50,7 +53,7 @@ class DictionaryBuilder:
         try:
             for i, row in enumerate(synonym_input_stream):
                 line_no = i
-                if not row:
+                if (not row or row.isspace()):
                     if len(block) == 0:
                         continue
                     else:
@@ -201,17 +204,28 @@ class DictionaryBuilder:
     def __logging_size(self, size):
         self.logger.info('{} bytes\n'.format(size))
 
+    def read_loffer_config():
+        pass
+    
+    def parse_argment():
+        parser = argparse.ArgumentParser(
+            description="usage: DictionaryBuilder - o file [-d description] input\n")
+        parser.add_argument(dest="input_path",
+                            metavar="file", help="the input file")
+        parser.add_argument("-o", dest="output_path,
+                            metavar="file", help="the output file")
+        parser.add_argument("-d", dest="description", metavar="string", help="description comment")
+        return parser
 
-# def main():
-#     parser = argparse.ArgumentParser(
-#         description="usage: DictionaryBuilder - o file[-d description] input\n\t-d description\tcomment\n")
-#     parser.add_argument(dest="fpath_in",
-#                         metavar="file", help="the input file")
-#     parser.add_argument("-o", dest="fpath_out",
-#                         metavar="file", help="the output file")
-#     parser.add_argument("-d", dest="description", metavar="string")
+    def main():
+        args = parse_argment()
+        header = DictionaryHeader(dictionaryversion.SYSTEM_DICT_VERSION_1, time.time(), args.description)
+        with open(args.output_path) as output:
+            output.write(header.to_byte())
 
+            builder = DictionaryBuilder()
+            builder.build(args.input_path, output)
 
-# if __name__ == "__main__":
-#     import argparse
-#     main()
+if __name__ == "__main__":
+    import argparse
+    main()
