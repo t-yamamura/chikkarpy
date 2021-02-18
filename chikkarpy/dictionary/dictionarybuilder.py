@@ -4,7 +4,7 @@ import sys
 from logging import DEBUG, StreamHandler, getLogger
 from dartsclone import DoubleArray
 from sortedcontainers import SortedDict
-from sudachipy.dictionarylib.jtypedbytebuffer import JTypedByteBuffer
+from jtypedbytebuffer import JTypedByteBuffer
 from Flags import Flags
 from dictionaryheader import DictionaryHeader
 import dictionaryversion
@@ -41,7 +41,7 @@ class DictionaryBuilder:
         self.logger = logger or self.__default_logger()
 
     def build(self, input_path, out_stream):
-        with open(input_path, 'r', encoding='utf-8') as rf:
+        with open(input_path, 'rb', encoding='utf-8') as rf:
             self.build_synonym(rf)
         self.write_trie(out_stream)
         self.write_synonym_groups(out_stream)
@@ -155,7 +155,7 @@ class DictionaryBuilder:
             for entry in entries:
                 self.write_string(entry.headword)
                 self.write_shortarray(entry.lexeme_ids)
-                self.byte_buffer.write_int(entry.flags.encode())
+                self.byte_buffer.write_int(entry.flags.encode(), 'short')
                 self.write_string(entry.category)
             self.byte_buffer.seek(0)
             io_out.write(self.byte_buffer.read())
@@ -204,27 +204,27 @@ class DictionaryBuilder:
     def __logging_size(self, size):
         self.logger.info('{} bytes\n'.format(size))
 
-    def read_loffer_config():
+    def read_loffer_config(self):
         pass
-    
-    def parse_argment():
-        parser = argparse.ArgumentParser(
-            description="usage: DictionaryBuilder - o file [-d description] input\n")
-        parser.add_argument(dest="input_path",
-                            metavar="file", help="the input file")
-        parser.add_argument("-o", dest="output_path,
-                            metavar="file", help="the output file")
-        parser.add_argument("-d", dest="description", metavar="string", help="description comment")
-        return parser
 
-    def main():
-        args = parse_argment()
-        header = DictionaryHeader(dictionaryversion.SYSTEM_DICT_VERSION_1, time.time(), args.description)
-        with open(args.output_path) as output:
-            output.write(header.to_byte())
+def parse_argment():
+    parser = argparse.ArgumentParser(
+        description="usage: DictionaryBuilder - o file [-d description] input\n")
+    parser.add_argument(dest="input_path",
+                        metavar="file", help="the input file")
+    parser.add_argument("-o", dest="output_path",
+                        metavar="file", help="the output file")
+    parser.add_argument("-d", dest="description", metavar="string", help="description comment")
+    return parser.parse_args()
 
-            builder = DictionaryBuilder()
-            builder.build(args.input_path, output)
+def main():
+    args = parse_argment()
+    header = DictionaryHeader(dictionaryversion.SYSTEM_DICT_VERSION_1, time.time(), args.description)
+    with open(args.o) as output:
+        output.write(header.to_byte())
+
+        builder = DictionaryBuilder()
+        builder.build(args.input_path, output)
 
 if __name__ == "__main__":
     import argparse

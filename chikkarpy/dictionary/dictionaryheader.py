@@ -1,5 +1,7 @@
 import struct
 
+from jtypedbytebuffer import JTypedByteBuffer
+from . import dictionaryversion
 
 class DictionaryHeader(object):
     __DESCRIPTION_SIZE = 256
@@ -43,3 +45,44 @@ class DictionaryHeader(object):
         :rtype: int
         """
         return self.__STORAGE_SIZE
+
+    def to_byte(self):
+        """
+
+        :retrun:
+        :rtype: bytes
+
+        """
+        buf = JTypedByteBuffer(b'\x00' * (16 + self.__DESCRIPTION_SIZE))
+        buf.seek(0)
+        buf.write_int(self.version, 'long', signed=False)
+        buf.write_int(self.create_time, 'long')
+        dbesc = self.description.encode('utf-8')
+        if len(dbesc) > self.__DESCRIPTION_SIZE:
+            raise ValueError('description is too long')
+        buf.write(dbesc)
+        return buf.getvalue()
+
+    def get_create_time(self):
+        """
+
+        :return:
+        :rtype: int
+        """
+        return self.create_time
+
+    def get_description(self):
+        """
+
+        :return:
+        :rtype: str
+        """
+        return self.description
+
+    def is_dictionary(self):
+        """
+
+        :return:
+        :rtype: bool
+        """
+        return dictionaryversion.is_dictionary(self.version)
