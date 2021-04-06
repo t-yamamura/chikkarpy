@@ -8,10 +8,11 @@ from .doublearraytrie import DoubleArrayTrie
 
 class BinaryDictionary(object):
 
-    def __init__(self, bytes_, header, trie):
+    def __init__(self, bytes_, header, trie, offset):
         self._bytes = bytes_
         self._header = header
         self._trie = trie
+        self.offset = offset
 
     @staticmethod
     def _read_dictionary(filename, access=mmap.ACCESS_READ):
@@ -28,10 +29,16 @@ class BinaryDictionary(object):
         trie = DoubleArrayTrie(bytes_, offset)
         offset += trie.storage_size()
 
-        return bytes_, header, trie
+        return bytes_, header, trie, offset
 
     @classmethod
     def from_system_dictionary(cls, filename):
+        """
+
+        :param filename:
+        :return:
+        :rtype: BinaryDictionary
+        """
         args = cls._read_dictionary(filename)
         version = args[2].version
         if not is_dictionary(version):
@@ -43,6 +50,15 @@ class BinaryDictionary(object):
         self._bytes.close()
 
     @property
+    def bytes(self):
+        """
+
+        :return:
+        :rtype: mmap.mmap
+        """
+        return self._bytes
+
+    @property
     def header(self) -> DictionaryHeader:
         """
 
@@ -50,3 +66,21 @@ class BinaryDictionary(object):
         :rtype: DictionaryHeader
         """
         return self._header
+
+    @property
+    def trie(self):
+        """
+
+        :return:
+        :rtype: DoubleArrayTrie
+        """
+        return self._trie
+
+    @property
+    def offset(self):
+        """
+
+        :return:
+        :rtype: int
+        """
+        return self.offset

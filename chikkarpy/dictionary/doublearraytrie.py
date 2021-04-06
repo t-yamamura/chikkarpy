@@ -30,6 +30,22 @@ class DoubleArrayTrie(object):
 
         self.storage_size = position - offset
 
+    def lookup(self, text, offset):
+        """
+
+        :param bytes text:
+        :param int offset:
+        :return:
+        """
+        key = text[offset:]
+        result = self.trie.common_prefix_search(key, length=len(key))
+        for index, length in result:
+            word_ids = self.group_id_table.get(index)
+            length += offset
+            for word_id in word_ids:
+                yield word_id, length
+
+
     def storage_size(self):
         """
         :return:
