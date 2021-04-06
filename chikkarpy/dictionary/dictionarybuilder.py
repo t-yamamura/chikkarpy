@@ -13,7 +13,6 @@ import time
 
 class DictionaryBuilder:
     __BYTE_MAX_VALUE = 127
-    __COLS_NUM = 9
 
     class SynonymEntry:
         headword = None
@@ -41,7 +40,7 @@ class DictionaryBuilder:
         self.logger = logger or self.__default_logger()
 
     def build(self, input_path, out_stream):
-        with open(input_path, 'rb', encoding='utf-8') as rf:
+        with open(input_path, 'r', encoding='utf-8') as rf:
             self.build_synonym(rf)
         self.write_trie(out_stream)
         self.write_synonym_groups(out_stream)
@@ -76,11 +75,12 @@ class DictionaryBuilder:
             if line_no > 0:
                 self.logger.error(
                     '{} at line {} in {}\n'.format(e.args[0], line_no, synonym_input_stream.name))
+            print(row)
             raise e
 
     def parse_line(self, line):
         cols = line.split(",")
-        if len(cols) != self.__COLS_NUM:
+        if len(cols) < 9:
             raise ValueError('invalid format')
         if cols[2] == "2":
             return None
@@ -111,10 +111,10 @@ class DictionaryBuilder:
         id_table = JTypedByteBuffer()
         for key, ids in self.trie_keys.items():
             keys.append(key)
-            vals.append(ids)
+            vals.append(id_table.tell())
             id_table.write_int(len(ids), 'byte')
-            for id in ids:
-                id_table.write_int(id, 'int')
+            for _id in ids:
+                id_table.write_int(_id, 'int')
         self.logger.info('building the trie...')
         trie.build(keys, lengths=[len(k) for k in keys], values=vals)
         self.logger.info('done\n')
@@ -209,18 +209,18 @@ class DictionaryBuilder:
 
 def parse_argment():
     parser = argparse.ArgumentParser(
-        description="usage: DictionaryBuilder - o file [-d description] input\n")
+        description="usage: DictionaryBuilder -o file [-d description] input\n")
     parser.add_argument(dest="input_path",
-                        metavar="file", help="the input file")
+                        type=str, help="the synonym_dict.txt")
     parser.add_argument("-o", dest="output_path",
-                        metavar="file", help="the output file")
-    parser.add_argument("-d", dest="description", metavar="string", help="description comment")
+                        type=str, help="the bynary synonym file")
+    parser.add_argument("-d", type=str, default="", dest="description", help="description comment")
     return parser.parse_args()
 
 def main():
     args = parse_argment()
-    header = DictionaryHeader(dictionaryversion.SYSTEM_DICT_VERSION_1, time.time(), args.description)
-    with open(args.o) as output:
+    header = DictionaryHeader(dictionaryversion.SYSTEM_DICT_VERSION_1, int(time.time()), args.description)
+    with open(args.output_path, "bw") as output:
         output.write(header.to_byte())
 
         builder = DictionaryBuilder()
