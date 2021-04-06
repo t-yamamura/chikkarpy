@@ -5,7 +5,7 @@ from logging import DEBUG, StreamHandler, getLogger
 from dartsclone import DoubleArray
 from sortedcontainers import SortedDict
 from jtypedbytebuffer import JTypedByteBuffer
-from Flags import Flags
+from flags import Flags
 from dictionaryheader import DictionaryHeader
 import dictionaryversion
 import time
