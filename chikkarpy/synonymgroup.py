@@ -38,7 +38,7 @@ class SynonymGroup(object):
 
         :param str word: a headword
         :return: an Optional describing the synonym with the specified headword, or an empty Optional if a synonym is not found
-        :rtype:
+        :rtype: chikkarpy.synonym.Synonym or None
         """
         for synonym in self.synonyms:
             if synonym.get_head_word() == word:

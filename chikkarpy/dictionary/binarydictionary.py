@@ -12,7 +12,7 @@ class BinaryDictionary(object):
         self._bytes = bytes_
         self._header = header
         self._trie = trie
-        self.offset = offset
+        self._offset = offset
 
     @staticmethod
     def _read_dictionary(filename, access=mmap.ACCESS_READ):
@@ -27,7 +27,7 @@ class BinaryDictionary(object):
             raise Exception('invalid dictionary version')
 
         trie = DoubleArrayTrie(bytes_, offset)
-        offset += trie.storage_size()
+        offset += trie.get_storage_size()
 
         return bytes_, header, trie, offset
 
@@ -40,8 +40,7 @@ class BinaryDictionary(object):
         :rtype: BinaryDictionary
         """
         args = cls._read_dictionary(filename)
-        version = args[2].version
-        if not is_dictionary(version):
+        if not args[1].is_dictionary():
             raise IOError('invalid system dictionary')
         return cls(*args)
 
@@ -83,4 +82,4 @@ class BinaryDictionary(object):
         :return:
         :rtype: int
         """
-        return self.offset
+        return self._offset

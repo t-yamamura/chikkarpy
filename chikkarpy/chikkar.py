@@ -5,7 +5,7 @@ class Chikkar(object):
     """
     def __init__(self):
         self.dictionaries = []
-        self.enable_verb = False
+        self._enable_verb = False
 
     def enable_verb(self):
         """
@@ -13,7 +13,7 @@ class Chikkar(object):
 
         :return:
         """
-        self.enable_verb = True
+        self._enable_verb = True
 
     def add_dictionary(self, dictionary):
         """
@@ -21,7 +21,6 @@ class Chikkar(object):
         Adds a dictionary to be used for search. When searching, the dictionary added later takes precedence.
 
         :param chikkarpy.dictionary.dictionary.Dictionary dictionary: a synonym dictionary
-        :return:
         """
         self.dictionaries.append(dictionary)
 
@@ -32,10 +31,12 @@ class Chikkar(object):
         :param str word: keyword
         :param list[int] group_ids: synonym group IDs
         :return: a list of synonyms
+        :rtype: list[str]
         """
 
         for dictionary in self.dictionaries:
             gids = dictionary.lookup(word, group_ids)
+            print("gids", type(gids), gids, flush=True)
             if len(gids) == 0:
                 continue
 
@@ -54,6 +55,27 @@ class Chikkar(object):
         :param str word:
         :param int gid:
         :param chikkarpy.dictionary.dictionary.Dictionary dictionary:
-        :return:
+        :return: head words
+        :rtype: list[str] or None
         """
-        synonyms = dictionary.get_synonym_group(gid)
+        head_words = []
+
+        synonym_group = dictionary.get_synonym_group(gid)
+        print("synonym_group", synonym_group)
+        if synonym_group is None:
+            return None
+
+        looked_up = synonym_group.lookup(word)
+        if looked_up is None:
+            raise ValueError()
+        if looked_up.has_ambiguity():
+            return None
+
+        for synonym in synonym_group.get_synonyms():
+            if synonym.get_head_word() == word:
+                continue
+            if not self.enable_verb and not synonym.is_noun():
+                continue
+
+            head_words.append(synonym.get_head_word())
+        return head_words

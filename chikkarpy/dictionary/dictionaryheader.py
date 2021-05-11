@@ -1,7 +1,8 @@
 import struct
 
-from jtypedbytebuffer import JTypedByteBuffer
-import dictionaryversion
+from .jtypedbytebuffer import JTypedByteBuffer
+from . import dictionaryversion
+
 
 class DictionaryHeader(object):
     __DESCRIPTION_SIZE = 256

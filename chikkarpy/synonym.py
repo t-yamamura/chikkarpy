@@ -55,7 +55,7 @@ class Synonym(object):
         :return: true if this synonym is ambiguous, false otherwise
         :bool: bool
         """
-        return self.flags.has_ambiguity()
+        return self.flags.get_has_ambiguity()
 
     def get_lexeme_ids(self):
         """
@@ -73,7 +73,7 @@ class Synonym(object):
         :return: true if this synonym is a noun, false otherwise
         :rtype: bool
         """
-        return self.flags.is_noun()
+        return self.flags.get_is_noun()
 
     def get_form_type(self):
         """
@@ -82,7 +82,7 @@ class Synonym(object):
         :return: the word form type of this synonym
         :rtype: int
         """
-        return self.flags.form_type()
+        return self.flags.get_form_type()
 
     def get_acronym_type(self):
         """
@@ -91,7 +91,7 @@ class Synonym(object):
         :return: the acronym type of this synonym
         :rtype: int
         """
-        return self.flags.acronym_type()
+        return self.flags.get_acronym_type()
 
     def get_variant_type(self):
         """
@@ -100,7 +100,7 @@ class Synonym(object):
         :return: the variant type of this synonym
         :rtype: int
         """
-        return self.flags.variant_type()
+        return self.flags.get_variant_type()
 
     def get_category(self):
         """

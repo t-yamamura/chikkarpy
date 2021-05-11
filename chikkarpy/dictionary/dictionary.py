@@ -29,7 +29,7 @@ class Dictionary(object):
         :rtype: list[int]
         """
         if self.enable_trie or group_ids is None:
-            return self.dict_.trie.lookup(word.encode('utf-8'))
+            return self.dict_.trie.lookup_from_bytes(word.encode('utf-8'))
         else:
             return group_ids
 

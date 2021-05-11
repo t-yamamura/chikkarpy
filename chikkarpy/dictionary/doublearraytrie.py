@@ -18,6 +18,7 @@ class DoubleArrayTrie(object):
 
         # trie size
         size = int.from_bytes(bytes_.read(4), 'little')
+        print("size", size)
         position += 4
 
         # trie array
@@ -45,8 +46,18 @@ class DoubleArrayTrie(object):
             for word_id in word_ids:
                 yield word_id, length
 
+    def lookup_from_bytes(self, text):
+        """
+        :param bytes text:
+        """
+        results = self.trie.exact_match_search(text)
+        print(results, results[0])
+        if results[0] < 0:
+            return []
+        else:
+            return self.group_id_table.get(results[0])
 
-    def storage_size(self):
+    def get_storage_size(self):
         """
         :return:
         :rtype: int
