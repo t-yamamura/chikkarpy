@@ -1,9 +1,9 @@
 
 import mmap
 
-from .dictionaryheader import DictionaryHeader
-from .dictionaryversion import is_dictionary
-from .doublearraytrie import DoubleArrayTrie
+from chikkarpy.dictionary.dictionaryheader import DictionaryHeader
+from chikkarpy.dictionary.dictionaryversion import is_dictionary
+from chikkarpy.dictionary.doublearraytrie import DoubleArrayTrie
 
 
 class BinaryDictionary(object):

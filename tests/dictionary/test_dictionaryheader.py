@@ -16,8 +16,8 @@ import mmap
 import os
 import unittest
 
-from sudachipy.dictionarylib import SYSTEM_DICT_VERSION_2
-from sudachipy.dictionarylib.dictionaryheader import DictionaryHeader
+from chikkarpy.dictionary.dictionaryversion import SYSTEM_DICT_VERSION_1
+from chikkarpy.dictionary.dictionaryheader import DictionaryHeader
 
 
 class TestDictionaryHeader(unittest.TestCase):
@@ -28,14 +28,14 @@ class TestDictionaryHeader(unittest.TestCase):
             os.path.dirname(os.path.abspath(__file__)),
             os.pardir,
             'resources')
-        filename = os.path.join(test_resources_dir, 'system.dic')
+        filename = os.path.join(test_resources_dir, 'system_syn.dic')
         with open(filename, 'rb') as system_dic:
             bytes_ = mmap.mmap(system_dic.fileno(), 0, access=mmap.ACCESS_READ)
         offset = 0
         self.header = DictionaryHeader.from_bytes(bytes_, offset)
 
     def test_version(self):
-        self.assertEqual(SYSTEM_DICT_VERSION_2, self.header.version)
+        self.assertEqual(SYSTEM_DICT_VERSION_1, self.header.version)
 
     def test_create_time(self):
         self.assertTrue(self.header.create_time > 0)
