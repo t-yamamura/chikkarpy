@@ -4,39 +4,42 @@ class Chikkar(object):
     A container of synonym dictionaries.
     """
     def __init__(self):
-        self.dictionaries = []
+        self._dictionaries = []
         self._enable_verb = False
 
     def enable_verb(self):
-        """
-        Enable verb and adjective synonyms.
+        """Enable verb and adjective synonyms.
 
-        :return:
+        After this method is called, ``self.find()`` searches for synonyms for verbs and adjectives.
         """
         self._enable_verb = True
 
     def add_dictionary(self, dictionary):
-        """
-        Add a synonym dictionary.
+        """Add a synonym dictionary.
+
         Adds a dictionary to be used for search. When searching, the dictionary added later takes precedence.
 
-        :param chikkarpy.dictionary.dictionary.Dictionary dictionary: a synonym dictionary
+        Args:
+            dictionary (chikkarpy.dictionary.Dictionary): a synonym dictionary
         """
-        self.dictionaries.append(dictionary)
+        self._dictionaries.append(dictionary)
 
     def find(self, word, group_ids=None):
-        """
-        Returns synonyms for the specified word.
+        """Returns synonyms for the specified word.
 
-        :param str word: keyword
-        :param list[int] group_ids: synonym group IDs
-        :return: a list of synonyms
-        :rtype: list[str]
-        """
+        If the tries in the dictionaries are enabled and ``group_ids`` is not ``None``,
+        use the synonym group IDs as keys. Otherwise, use ``word`` as a key.
+        If ``enable_verb`` is not called, only noun synonyms are returned.
 
-        for dictionary in self.dictionaries:
+        Args:
+            word (str): keyword
+            group_ids (list[int]): synonym group IDs
+
+        Returns:
+            list[str]: a list of synonyms
+        """
+        for dictionary in self._dictionaries:
             gids = dictionary.lookup(word, group_ids)
-            print("gids", type(gids), gids, flush=True)
             if len(gids) == 0:
                 continue
 
@@ -52,16 +55,17 @@ class Chikkar(object):
     def gather_head_word(self, word, gid, dictionary):
         """
 
-        :param str word:
-        :param int gid:
-        :param chikkarpy.dictionary.dictionary.Dictionary dictionary:
-        :return: head words
-        :rtype: list[str] or None
+        Args:
+            word (str):
+            gid (int):
+            dictionary (chikkarpy.dictionary.Dictionary):
+
+        Returns:
+            list[str] | None: head words
         """
         head_words = []
 
         synonym_group = dictionary.get_synonym_group(gid)
-        print("synonym_group", synonym_group)
         if synonym_group is None:
             return None
 
@@ -72,10 +76,10 @@ class Chikkar(object):
             return None
 
         for synonym in synonym_group.get_synonyms():
-            if synonym.get_head_word() == word:
+            if synonym.head_word == word:
                 continue
             if not self.enable_verb and not synonym.is_noun():
                 continue
 
-            head_words.append(synonym.get_head_word())
+            head_words.append(synonym.head_word)
         return head_words

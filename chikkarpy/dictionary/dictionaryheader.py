@@ -5,28 +5,35 @@ from . import dictionaryversion
 
 
 class DictionaryHeader(object):
+    """
+    A header of a dictionary file.
+    """
     __DESCRIPTION_SIZE = 256
     __STORAGE_SIZE = 8 + 8 + __DESCRIPTION_SIZE
 
     def __init__(self, version, create_time, description):
         """
 
-        :param int version: version id (16959298134372991084 == 0xeb5b87cc8b3f406c)
-        :param int create_time: epoch second (1609941157)
-        :param str description:
+        Args:
+            version (int): a dictionary version ID
+            create_time (int): dictionary creation time (unix time)
+            description (str): description of a dictionary
         """
-        self.version = version
-        self.create_time = create_time
-        self.description = description
+        self._version = version
+        self._create_time = create_time
+        self._description = description
 
     @classmethod
     def from_bytes(cls, bytes_, offset):
         """
+        Reads the dictionary header from the specified byte object and returns it
 
-        :param mmap.mmap bytes_:
-        :param int offset:
-        :return:
-        :rtype: DictionaryHeader
+        Args:
+            bytes_ (mmap.mmap):
+            offset (int):
+
+        Returns:
+            DictionaryHeader:
         """
         version, create_time = struct.unpack_from("<2Q", bytes_, offset)
         offset += 16
@@ -40,19 +47,13 @@ class DictionaryHeader(object):
         return cls(version, create_time, description)
 
     def storage_size(self):
-        """
-
-        :return:
-        :rtype: int
-        """
         return self.__STORAGE_SIZE
 
     def to_byte(self):
-        """
+        """DictionaryHeader to binary converter
 
-        :retrun:
-        :rtype: bytes
-
+        Returns:
+            bytes: a binarized dictionary header
         """
         buf = JTypedByteBuffer(b'\x00' * (16 + self.__DESCRIPTION_SIZE))
         buf.seek(0)
@@ -64,26 +65,25 @@ class DictionaryHeader(object):
         buf.write(dbesc)
         return buf.getvalue()
 
-    def get_create_time(self):
-        """
+    @property
+    def version(self):
+        """int: a dictionary version ID"""
+        return self._version
 
-        :return:
-        :rtype: int
-        """
-        return self.create_time
+    @property
+    def create_time(self):
+        """int: dictionary creation time (unix time)"""
+        return self._create_time
 
-    def get_description(self):
-        """
-
-        :return:
-        :rtype: str
-        """
-        return self.description
+    @property
+    def description(self):
+        """str: description of a dictionary"""
+        return self._description
 
     def is_dictionary(self):
-        """
+        """Returns ``True`` if, and only if, the file is a system dictionary.
 
-        :return:
-        :rtype: bool
+        Returns:
+            bool: ``True`` if the file is a system dictionary, otherwise ``False``
         """
         return dictionaryversion.is_dictionary(self.version)

@@ -18,7 +18,6 @@ class DoubleArrayTrie(object):
 
         # trie size
         size = int.from_bytes(bytes_.read(4), 'little')
-        print("size", size)
         position += 4
 
         # trie array
@@ -51,7 +50,6 @@ class DoubleArrayTrie(object):
         :param bytes text:
         """
         results = self.trie.exact_match_search(text)
-        print(results, results[0])
         if results[0] < 0:
             return []
         else:

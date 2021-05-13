@@ -1,6 +1,10 @@
 
 
 class Synonym(object):
+    """
+    A synonym
+    """
+
     # Typical form
     __NONE = 0
 
@@ -26,87 +30,71 @@ class Synonym(object):
     __VARIANT_MISSPELLED = 3
 
     def __init__(self, head_word, lexeme_ids, flags, category):
-        """
-        Construct a new synonym with the specified parameter.
+        """Construct a new synonym with the specified parameter.
 
-        :param str head_word: a notation string
-        :param list[int] lexeme_ids: a ID of lexeme in the synonym group
-        :param chikkarpy.dictionary.flags.Flags flags: encoded flags
-        :param str category: category Information of the synonym
+        Args:
+            head_word (str): a notation string
+            lexeme_ids (list[int]): a ID of lexeme in the synonym group
+            flags (chikkarpy.dictionary.flags.Flags): encoded flags
+            category (str): category Information of the synonym
         """
-        self.head_word = head_word
-        self.lexeme_ids = lexeme_ids
-        self.flags = flags
-        self.category = category
+        self._head_word = head_word
+        self._lexeme_ids = lexeme_ids
+        self._flags = flags
+        self._category = category
 
-    def get_head_word(self):
-        """
-        Returns the notation of this synonym.
+    @property
+    def head_word(self):
+        """str: the notation of this synonym"""
+        return self._head_word
 
-        :return: the notation of this synonym
-        :rtype: str
-        """
-        return self.head_word
+    @property
+    def lexeme_ids(self):
+        """list[int]: the IDs of the lexemes that corresponds to this synonym."""
+        return self._lexeme_ids
+
+    @property
+    def category(self):
+        """str: the category information of this synonym"""
+        return self.category
 
     def has_ambiguity(self):
-        """
-        Returns true if and only if this synonym has ambiguity.
+        """Returns ``True`` if and only if this synonym has ambiguity.
 
-        :return: true if this synonym is ambiguous, false otherwise
-        :bool: bool
+        Returns:
+            bool: ``True`` if this synonym is ambiguous, ``False`` otherwise
         """
-        return self.flags.get_has_ambiguity()
-
-    def get_lexeme_ids(self):
-        """
-        Returns the IDs of the lexemes that corresponds to this synonym.
-
-        :return: an array of the IDs of the lexemes of this synonym
-        :rtype: list[int]
-        """
-        return self.lexeme_ids
+        return self._flags.has_ambiguity
 
     def is_noun(self):
-        """
-        Returns true if and only if this synonym is a noun;
+        """Returns ``True`` if and only if this synonym is a noun;
 
-        :return: true if this synonym is a noun, false otherwise
-        :rtype: bool
+        Returns:
+            bool: ``True`` if this synonym is a noun, ``False`` otherwise
         """
-        return self.flags.get_is_noun()
+        return self._flags.is_noun
 
-    def get_form_type(self):
-        """
-        Returns the word form type of this synonym.
+    def form_type(self):
+        """Returns the word form type of this synonym.
 
-        :return: the word form type of this synonym
-        :rtype: int
+        Returns:
+            int: the word form type of this synonym
         """
-        return self.flags.get_form_type()
+        return self._flags.form_type
 
-    def get_acronym_type(self):
-        """
-        Returns the acronym type of this synonym.
+    def acronym_type(self):
+        """Returns the acronym type of this synonym.
 
-        :return: the acronym type of this synonym
-        :rtype: int
+        Returns:
+            int: the acronym type of this synonym
         """
-        return self.flags.get_acronym_type()
+        return self._flags.acronym_type
 
-    def get_variant_type(self):
-        """
-        Returns the variant type of this synonym.
+    def variant_type(self):
+        """Returns the variant type of this synonym.
 
-        :return: the variant type of this synonym
-        :rtype: int
+        Returns:
+            int: the variant type of this synonym
         """
-        return self.flags.get_variant_type()
+        return self._flags.variant_type
 
-    def get_category(self):
-        """
-        Returns the category information of this synonym.
-
-        :return: the category information of this synonym
-        :rtype: str
-        """
-        return self.category

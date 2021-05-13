@@ -10,13 +10,14 @@ class SynonymGroupList(object):
     def __init__(self, bytes_, offset):
         """
 
-        :param mmap.mmap bytes_:
-        :param int offset:
+        Args:
+            bytes_ (mmap.mmap):
+            offset (int):
         """
         self.bytes_ = bytes_
         orig_pos = self.bytes_.tell()
         self.bytes_.seek(offset)
-        self.size = int.from_bytes(self.bytes_.read(4), 'little', signed=True)  # buf.getInt();
+        self.size = int.from_bytes(self.bytes_.read(4), 'little', signed=True)
 
         self.group_id_to_offset = {}
         for i in range(self.size):
@@ -27,9 +28,11 @@ class SynonymGroupList(object):
     def get_synonym_group(self, group_id):
         """
 
-        :param int group_id:
-        :return:
-        :rtype: SynonymGroup
+        Args:
+            group_id (int):
+
+        Returns:
+            chikkarpy.synonymgroup.SynonymGroup:
         """
         if group_id not in self.group_id_to_offset:
             return None
@@ -49,8 +52,9 @@ class SynonymGroupList(object):
 
     def buffer_to_string_length(self):
         """
-        :return:
-        :rtype: int
+
+        Returns:
+            int:
         """
         length = self.bytes_.read_byte()
         if length < 128:
@@ -61,13 +65,19 @@ class SynonymGroupList(object):
 
     def buffer_to_string(self):
         """
-        :return:
-        :rtype:
+
+        Returns:
+            str:
         """
         length = self.buffer_to_string_length()
         return self.bytes_.read(2 * length).decode('utf-16-le')
 
     def buffer_to_short_array(self):
+        """
+
+        Returns:
+            list[int]:
+        """
         length = self.bytes_.read_byte()
         _bytes = self.bytes_.read(2 * length)
         return list(struct.unpack('{}h'.format(length), _bytes))

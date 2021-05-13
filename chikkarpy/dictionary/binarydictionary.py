@@ -9,6 +9,14 @@ from .doublearraytrie import DoubleArrayTrie
 class BinaryDictionary(object):
 
     def __init__(self, bytes_, header, trie, offset):
+        """
+
+        Args:
+            bytes_ (mmap.mmap):
+            header (DictionaryHeader):
+            trie (DoubleArrayTrie):
+            offset (int):
+        """
         self._bytes = bytes_
         self._header = header
         self._trie = trie
@@ -16,6 +24,15 @@ class BinaryDictionary(object):
 
     @staticmethod
     def _read_dictionary(filename, access=mmap.ACCESS_READ):
+        """
+
+        Args:
+            filename (str):
+            access (int):
+
+        Returns:
+
+        """
         with open(filename, 'rb') as system_dic:
             bytes_ = mmap.mmap(system_dic.fileno(), 0, access=access)
         offset = 0
@@ -35,9 +52,11 @@ class BinaryDictionary(object):
     def from_system_dictionary(cls, filename):
         """
 
-        :param filename:
-        :return:
-        :rtype: BinaryDictionary
+        Args:
+            filename (str):
+
+        Returns:
+            chikkarpy.dictionary.binarydictionary.BinaryDictionary:
         """
         args = cls._read_dictionary(filename)
         if not args[1].is_dictionary():
@@ -50,36 +69,20 @@ class BinaryDictionary(object):
 
     @property
     def bytes(self):
-        """
-
-        :return:
-        :rtype: mmap.mmap
-        """
+        """mmap.mmap:"""
         return self._bytes
 
     @property
-    def header(self) -> DictionaryHeader:
-        """
-
-        :return:
-        :rtype: DictionaryHeader
-        """
+    def header(self):
+        """chikkarpy.dictionary.dictionaryheader.DictionaryHeader: a"""
         return self._header
 
     @property
     def trie(self):
-        """
-
-        :return:
-        :rtype: DoubleArrayTrie
-        """
+        """chikkarpy.dictionary.doublearraytrie.DoubleArrayTrie: a"""
         return self._trie
 
     @property
     def offset(self):
-        """
-
-        :return:
-        :rtype: int
-        """
+        """int: """
         return self._offset
