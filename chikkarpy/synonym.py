@@ -69,46 +69,26 @@ class Synonym(object):
 
     @property
     def has_ambiguity(self):
-        """Returns ``True`` if and only if this synonym has ambiguity.
-
-        Returns:
-            bool: ``True`` if this synonym is ambiguous, ``False`` otherwise
-        """
+        """bool: ``True`` if this synonym is ambiguous, ``False`` otherwise"""
         return self._flags.has_ambiguity
 
     @property
     def is_noun(self):
-        """Returns ``True`` if and only if this synonym is a noun;
-
-        Returns:
-            bool: ``True`` if this synonym is a noun, ``False`` otherwise
-        """
+        """bool: ``True`` if this synonym is a noun, ``False`` otherwise"""
         return self._flags.is_noun
 
     @property
     def form_type(self):
-        """Returns the word form type of this synonym.
-
-        Returns:
-            int: the word form type of this synonym
-        """
+        """int: the word form type of this synonym"""
         return self._flags.form_type
 
     @property
     def acronym_type(self):
-        """Returns the acronym type of this synonym.
-
-        Returns:
-            int: the acronym type of this synonym
-        """
+        """int: the acronym type of this synonym."""
         return self._flags.acronym_type
 
     @property
     def variant_type(self):
-        """Returns the variant type of this synonym.
-
-        Returns:
-            int: the variant type of this synonym
-        """
+        """int: the variant type of this synonym."""
         return self._flags.variant_type
 
