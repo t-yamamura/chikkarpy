@@ -18,6 +18,7 @@ class Dictionary(object):
             filename (str): path of synonym dictionary file
             enable_trie (bool): true to enable trie, otherwise false
         """
+        self.filename = filename
         self.dict_ = BinaryDictionary.from_system_dictionary(filename)
         self.enable_trie = enable_trie
         self.group_list = SynonymGroupList(self.dict_.bytes, self.dict_.offset)
@@ -27,7 +28,7 @@ class Dictionary(object):
 
         Args:
             word (str): a headword to search for
-            group_ids (list[int]): an array of synonym group IDs to search for
+            group_ids (list[int]| None): an array of synonym group IDs to search for
 
         Returns:
             list[int]: an array of synonym group IDs found, or an empty array if not found
@@ -44,6 +45,6 @@ class Dictionary(object):
             group_id (int): a synonym group ID
 
         Returns:
-            SynonymGroup | None: the group of synonyms with the specified ID, or None if no ID matches
+            chikkarpy.synonymgroup.SynonymGroup | None: the group of synonyms with the specified ID, or None if no ID matches
         """
         return self.group_list.get_synonym_group(group_id)

@@ -1,34 +1,43 @@
+from enum import IntEnum
+
+
+class Form(IntEnum):
+    # Typical form
+    NONE = 0
+    # Translated from another language
+    TRANSLATION = 1
+    # Alias or common name
+    ALIAS = 2
+    # Old name
+    OLD_NAME = 3
+    # Misused words
+    MISNOMER = 4
+
+
+class Acronym(IntEnum):
+    # Typical Abbreviations
+    NONE = 0
+    # Abbreviations written in Latin letters
+    ALPHABET = 1
+    # Abbreviations written outside the Latin alphabet
+    OTHERS = 2
+
+
+class Variant(IntEnum):
+    # Typical form
+    NONE = 0
+    # Original spelling of foreign words or romanization of Japanese words
+    ALPHABET = 1
+    # Variant notation
+    GENERAL = 2
+    # Misspelled words
+    MISSPELLED = 3
 
 
 class Synonym(object):
     """
     A synonym
     """
-
-    # Typical form
-    __NONE = 0
-
-    # Translated from another language
-    __FORM_TRANSLATION = 1
-    # Alias or common name
-    __FORM_ALIAS = 2
-    # Old name
-    __FORM_OLD_NAME = 3
-    # Misused words
-    __FORM_MISNOMER = 4
-
-    # Abbreviations written in Latin letters
-    __ACRONYM_ALPHABET = 1
-    # Abbreviations written outside the Latin alphabet
-    __ACRONYM_OTHERS = 2
-
-    # Original spelling of foreign words or romanization of Japanese words
-    __VARIANT_ALPHABET = 1
-    # Variant notation
-    __VARIANT_GENERAL = 2
-    # Misspelled words
-    __VARIANT_MISSPELLED = 3
-
     def __init__(self, head_word, lexeme_ids, flags, category):
         """Construct a new synonym with the specified parameter.
 
@@ -43,20 +52,17 @@ class Synonym(object):
         self._flags = flags
         self._category = category
 
-    @property
-    def head_word(self):
+    def get_head_word(self):
         """str: the notation of this synonym"""
         return self._head_word
 
-    @property
-    def lexeme_ids(self):
+    def get_lexeme_ids(self):
         """list[int]: the IDs of the lexemes that corresponds to this synonym."""
         return self._lexeme_ids
 
-    @property
-    def category(self):
+    def get_category(self):
         """str: the category information of this synonym"""
-        return self.category
+        return self._category
 
     def has_ambiguity(self):
         """Returns ``True`` if and only if this synonym has ambiguity.
@@ -74,7 +80,7 @@ class Synonym(object):
         """
         return self._flags.is_noun
 
-    def form_type(self):
+    def get_form_type(self):
         """Returns the word form type of this synonym.
 
         Returns:
@@ -82,7 +88,7 @@ class Synonym(object):
         """
         return self._flags.form_type
 
-    def acronym_type(self):
+    def get_acronym_type(self):
         """Returns the acronym type of this synonym.
 
         Returns:
@@ -90,7 +96,7 @@ class Synonym(object):
         """
         return self._flags.acronym_type
 
-    def variant_type(self):
+    def get_variant_type(self):
         """Returns the variant type of this synonym.
 
         Returns:

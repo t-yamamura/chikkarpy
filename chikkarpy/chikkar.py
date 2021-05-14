@@ -22,7 +22,7 @@ class Chikkar(object):
         Args:
             dictionary (chikkarpy.dictionary.Dictionary): a synonym dictionary
         """
-        self._dictionaries.append(dictionary)
+        self._dictionaries.insert(0, dictionary)
 
     def find(self, word, group_ids=None):
         """Returns synonyms for the specified word.
@@ -71,15 +71,17 @@ class Chikkar(object):
 
         looked_up = synonym_group.lookup(word)
         if looked_up is None:
-            raise ValueError()
+            raise ValueError("The dictionary (``{}``) has a group ID of {}, "
+                             "but the key (``{}``) dose not exist in the group.".format(dictionary.filename, gid, word))
         if looked_up.has_ambiguity():
             return None
 
         for synonym in synonym_group.get_synonyms():
-            if synonym.head_word == word:
+            # print(synonym.get_head_word(), synonym.is_noun())
+            if synonym.get_head_word() == word:
                 continue
             if not self.enable_verb and not synonym.is_noun():
                 continue
 
-            head_words.append(synonym.head_word)
+            head_words.append(synonym.get_head_word())
         return head_words

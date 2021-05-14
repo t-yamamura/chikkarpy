@@ -40,7 +40,7 @@ class SynonymGroup(object):
             chikkarpy.synonym.Synonym | None: the synonym with the specified headword, or None if a synonym is not found
         """
         for synonym in self.synonyms:
-            if synonym.head_word == word:
+            if synonym.get_head_word() == word:
                 return synonym
 
         return None

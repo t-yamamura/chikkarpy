@@ -37,6 +37,7 @@ class Flags:
 
         """
         has_ambiguity = ((flags & 0x0001) == 1)
+        # print(flags, flags & 0x0002, (flags & 0x0002) == 2, type(flags), type(flags & 0x0002), (flags & 0x0002) == 2)
         is_noun = ((flags & 0x0002) == 2)
         form_type = (flags >> 2) & 0x0007
         acronym_type = (flags >> 5) & 0x0003
@@ -64,6 +65,11 @@ class Flags:
         return self._variant_type
 
     def encode(self):
+        """
+
+        Returns:
+            int:
+        """
         flags = 0
         flags |= 1 if self.has_ambiguity else 0
         flags |= (1 if self.is_noun else 0) << 1

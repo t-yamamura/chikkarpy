@@ -107,3 +107,5 @@ ENV/
 
 # Sudachi dictionary
 *.dic
+
+_*/

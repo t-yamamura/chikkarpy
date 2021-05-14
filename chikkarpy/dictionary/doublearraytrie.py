@@ -47,13 +47,18 @@ class DoubleArrayTrie(object):
 
     def lookup_from_bytes(self, text):
         """
-        :param bytes text:
+
+        Args:
+            text (bytes):
+
+        Returns:
+            list[int]:
         """
         results = self.trie.exact_match_search(text)
         if results[0] < 0:
             return []
         else:
-            return self.group_id_table.get(results[0])
+            return list(self.group_id_table.get(results[0]))
 
     def get_storage_size(self):
         """
