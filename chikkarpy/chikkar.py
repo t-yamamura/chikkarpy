@@ -77,10 +77,9 @@ class Chikkar(object):
             return None
 
         for synonym in synonym_group.get_synonyms():
-            # print(synonym.get_head_word(), synonym.is_noun())
             if synonym.get_head_word() == word:
                 continue
-            if not self.enable_verb and not synonym.is_noun():
+            if not self._enable_verb and not synonym.is_noun():
                 continue
 
             head_words.append(synonym.get_head_word())

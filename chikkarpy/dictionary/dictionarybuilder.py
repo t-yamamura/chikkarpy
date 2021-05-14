@@ -1,14 +1,9 @@
-import re
-import sys
-
 from logging import DEBUG, StreamHandler, getLogger
 from dartsclone import DoubleArray
 from sortedcontainers import SortedDict
-from jtypedbytebuffer import JTypedByteBuffer
-from flags import Flags
-from dictionaryheader import DictionaryHeader
-import dictionaryversion
-import time
+
+from .flags import Flags
+from .jtypedbytebuffer import JTypedByteBuffer
 
 
 class DictionaryBuilder:
