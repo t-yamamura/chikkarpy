@@ -9,7 +9,7 @@ from chikkarpy.dictionary.dictionaryheader import DictionaryHeader
 class TestDictionaryHeader(TestCase):
 
     def setUp(self):
-        dic_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'dict', 'system.dic')
+        dic_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'resources', 'system.dic')
         with open(dic_file, 'rb') as f:
             bytes_ = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
         self.header = DictionaryHeader.from_bytes(bytes_, 0)

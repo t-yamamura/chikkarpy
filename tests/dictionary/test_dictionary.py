@@ -8,7 +8,7 @@ from chikkarpy.dictionary import Dictionary
 class TestDictionary(TestCase):
 
     def setUp(self):
-        dic_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'dict', 'system.dic')
+        dic_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'resources', 'system.dic')
         self.dict = Dictionary(dic_file, True)
         self.dict_gid = Dictionary(dic_file, False)
 

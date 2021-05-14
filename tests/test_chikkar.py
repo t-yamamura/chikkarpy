@@ -10,7 +10,7 @@ from chikkarpy.dictionary import Dictionary
 class TestChikkar(unittest.TestCase):
 
     def setUp(self):
-        dict_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dict')
+        dict_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources')
 
         self.system_dict = Dictionary(os.path.join(dict_dir, 'system.dic'), False)
         self.user_dict = Dictionary(os.path.join(dict_dir, 'user.dic'), True)
