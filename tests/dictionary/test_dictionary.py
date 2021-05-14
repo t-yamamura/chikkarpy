@@ -10,18 +10,18 @@ class TestDictionary(TestCase):
     def setUp(self):
         dic_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'resources', 'system.dic')
         self.dict = Dictionary(dic_file, True)
-        self.dict_gid = Dictionary(dic_file, False)
+        self.dict_group_id = Dictionary(dic_file, False)
 
     def tearDown(self):
         self.dict.dict_.close()
-        self.dict_gid.dict_.close()
+        self.dict_group_id.dict_.close()
 
     def test_lookup(self):
         self.assertCountEqual(self.dict.lookup("open", group_ids=None), [6, 100006])
         self.assertCountEqual(self.dict.lookup("open", group_ids=[4]), [6, 100006])
 
-        self.assertCountEqual(self.dict_gid.lookup("open", group_ids=None), [6, 100006])
-        self.assertCountEqual(self.dict_gid.lookup("open", group_ids=[4]), [4])
+        self.assertCountEqual(self.dict_group_id.lookup("open", group_ids=None), [6, 100006])
+        self.assertCountEqual(self.dict_group_id.lookup("open", group_ids=[4]), [4])
 
     def test_get_synonyms(self):
         synonym_group = self.dict.get_synonym_group(6)
