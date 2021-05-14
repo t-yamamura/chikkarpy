@@ -52,18 +52,22 @@ class Synonym(object):
         self._flags = flags
         self._category = category
 
-    def get_head_word(self):
+    @property
+    def head_word(self):
         """str: the notation of this synonym"""
         return self._head_word
 
-    def get_lexeme_ids(self):
+    @property
+    def lexeme_ids(self):
         """list[int]: the IDs of the lexemes that corresponds to this synonym."""
         return self._lexeme_ids
 
-    def get_category(self):
+    @property
+    def category(self):
         """str: the category information of this synonym"""
         return self._category
 
+    @property
     def has_ambiguity(self):
         """Returns ``True`` if and only if this synonym has ambiguity.
 
@@ -72,6 +76,7 @@ class Synonym(object):
         """
         return self._flags.has_ambiguity
 
+    @property
     def is_noun(self):
         """Returns ``True`` if and only if this synonym is a noun;
 
@@ -80,7 +85,8 @@ class Synonym(object):
         """
         return self._flags.is_noun
 
-    def get_form_type(self):
+    @property
+    def form_type(self):
         """Returns the word form type of this synonym.
 
         Returns:
@@ -88,7 +94,8 @@ class Synonym(object):
         """
         return self._flags.form_type
 
-    def get_acronym_type(self):
+    @property
+    def acronym_type(self):
         """Returns the acronym type of this synonym.
 
         Returns:
@@ -96,7 +103,8 @@ class Synonym(object):
         """
         return self._flags.acronym_type
 
-    def get_variant_type(self):
+    @property
+    def variant_type(self):
         """Returns the variant type of this synonym.
 
         Returns:

@@ -73,14 +73,14 @@ class Chikkar(object):
         if looked_up is None:
             raise ValueError("The dictionary (``{}``) has a group ID of {}, "
                              "but the key (``{}``) dose not exist in the group.".format(dictionary.filename, group_id, word))
-        if looked_up.has_ambiguity():
+        if looked_up.has_ambiguity:
             return None
 
         for synonym in synonym_group.get_synonyms():
-            if synonym.get_head_word() == word:
+            if synonym.head_word == word:
                 continue
-            if not self._can_search_verb and not synonym.is_noun():
+            if not self._can_search_verb and not synonym.is_noun:
                 continue
 
-            head_words.append(synonym.get_head_word())
+            head_words.append(synonym.head_word)
         return head_words

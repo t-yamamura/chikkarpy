@@ -21,19 +21,19 @@ class TestSynonymGroup(TestCase):
         self.assertEqual(len(synonyms), 2)
 
         s = synonyms[0]
-        self.assertEqual(s.get_head_word(), "aaa")
-        self.assertFalse(s.has_ambiguity())
-        self.assertTrue(s.is_noun())
-        self.assertListEqual(s.get_lexeme_ids(), [1])
-        self.assertEqual(s.get_form_type(), 0)
-        self.assertEqual(s.get_acronym_type(), 0)
-        self.assertEqual(s.get_variant_type(), 0)
+        self.assertEqual(s.head_word, "aaa")
+        self.assertFalse(s.has_ambiguity)
+        self.assertTrue(s.is_noun)
+        self.assertListEqual(s.lexeme_ids, [1])
+        self.assertEqual(s.form_type, 0)
+        self.assertEqual(s.acronym_type, 0)
+        self.assertEqual(s.variant_type, 0)
         s = synonyms[1]
-        self.assertEqual(s.get_head_word(), "bbb")
+        self.assertEqual(s.head_word, "bbb")
 
     def test_lookup(self):
         s = self.group.lookup("aaa")
         self.assertIsNotNone(s)
-        self.assertEqual(s.get_head_word(), "aaa")
+        self.assertEqual(s.head_word, "aaa")
         s = self.group.lookup("ccc")
         self.assertIsNone(s)
