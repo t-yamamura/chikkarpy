@@ -48,3 +48,6 @@ class Dictionary(object):
             chikkarpy.synonymgroup.SynonymGroup | None: the group of synonyms with the specified ID, or None if no ID matches
         """
         return self.group_list.get_synonym_group(group_id)
+
+    def close(self):
+        self.dict_.close()

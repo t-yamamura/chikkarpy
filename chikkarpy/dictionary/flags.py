@@ -12,14 +12,6 @@ class Flags:
             acronym_type (int):
             variant_type (int):
         """
-
-        """
-        :param bool has_ambiguity:
-        :param bool is_noun:
-        :param int form_type:
-        :param int acronym_type:
-        :param int variant_type:
-        """
         self._has_ambiguity = has_ambiguity
         self._is_noun = is_noun
         self._form_type = form_type
@@ -37,7 +29,6 @@ class Flags:
 
         """
         has_ambiguity = ((flags & 0x0001) == 1)
-        # print(flags, flags & 0x0002, (flags & 0x0002) == 2, type(flags), type(flags & 0x0002), (flags & 0x0002) == 2)
         is_noun = ((flags & 0x0002) == 2)
         form_type = (flags >> 2) & 0x0007
         acronym_type = (flags >> 5) & 0x0003
