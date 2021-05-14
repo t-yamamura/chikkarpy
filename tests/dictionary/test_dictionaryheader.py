@@ -4,7 +4,6 @@ import os
 from unittest import TestCase
 
 from chikkarpy.dictionary.dictionaryheader import DictionaryHeader
-from chikkarpy.dictionary.dictionaryversion import SYSTEM_DICT_VERSION_1
 
 
 class TestDictionaryHeader(TestCase):
@@ -16,7 +15,7 @@ class TestDictionaryHeader(TestCase):
         self.header = DictionaryHeader.from_bytes(bytes_, 0)
 
     def test_version(self):
-        self.assertEqual(self.header.version, SYSTEM_DICT_VERSION_1)
+        self.assertTrue(self.header.is_dictionary())
 
     def test_create_time(self):
         self.assertTrue(self.header.create_time > 0)

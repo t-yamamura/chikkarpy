@@ -6,6 +6,7 @@ from chikkarpy.dictionary import Dictionary
 
 
 class TestDictionary(TestCase):
+
     def setUp(self):
         dic_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'dict', 'system.dic')
         self.dict = Dictionary(dic_file, True)
@@ -30,7 +31,3 @@ class TestDictionary(TestCase):
         # non-existent group id in the dictionary
         synonym_group = self.dict.get_synonym_group(200)
         self.assertFalse(synonym_group)
-
-    def test_get_dictionary_header(self):
-        raise NotImplementedError()
-
