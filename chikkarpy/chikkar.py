@@ -5,14 +5,14 @@ class Chikkar(object):
     """
     def __init__(self):
         self._dictionaries = []
-        self._enable_verb = False
+        self._can_search_verb = False
 
     def enable_verb(self):
         """Enable verb and adjective synonyms.
 
         After this method is called, ``self.find()`` searches for synonyms for verbs and adjectives.
         """
-        self._enable_verb = True
+        self._can_search_verb = True
 
     def add_dictionary(self, dictionary):
         """Add a synonym dictionary.
@@ -79,7 +79,7 @@ class Chikkar(object):
         for synonym in synonym_group.get_synonyms():
             if synonym.get_head_word() == word:
                 continue
-            if not self._enable_verb and not synonym.is_noun():
+            if not self._can_search_verb and not synonym.is_noun():
                 continue
 
             head_words.append(synonym.get_head_word())
