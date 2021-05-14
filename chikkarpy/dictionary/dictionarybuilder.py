@@ -194,9 +194,10 @@ class DictionaryBuilder:
     def write_stringlength(self, len_):
         if len_ <= self.__BYTE_MAX_VALUE:
             self.byte_buffer.write_int(len_, 'byte')
+        else:
+            self.byte_buffer.write_int((len_ >> 8) | 0x80, 'byte')
+            self.byte_buffer.write_int((len_ & 0xFF), 'byte')
 
     def __logging_size(self, size):
         self.logger.info('{} bytes\n'.format(size))
 
-    def read_loffer_config(self):
-        pass
