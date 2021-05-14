@@ -138,6 +138,7 @@ class DictionaryBuilder:
         mark = io_out.tell()
         io_out.seek(mark + 4 * len(self.synonym_groups) * 2 + 4)
         offsets = JTypedByteBuffer()
+        offsets.write_int(len(self.synonym_groups), 'int')
         self.logger.info('writing the word_infos...')
         base = io_out.tell()
         for entries in self.synonym_groups:
@@ -195,32 +196,10 @@ class DictionaryBuilder:
     def write_stringlength(self, len_):
         if len_ <= self.__BYTE_MAX_VALUE:
             self.byte_buffer.write_int(len_, 'byte')
+        else:
+            self.byte_buffer.write_int((len_ >> 8) | 0x80, 'byte')
+            self.byte_buffer.write_int((len_ & 0xFF), 'byte')
+
 
     def __logging_size(self, size):
         self.logger.info('{} bytes\n'.format(size))
-
-    def read_loffer_config(self):
-        pass
-
-def parse_argment():
-    parser = argparse.ArgumentParser(
-        description="usage: DictionaryBuilder -o file [-d description] input\n")
-    parser.add_argument(dest="input_path",
-                        type=str, help="the synonym_dict.txt")
-    parser.add_argument("-o", dest="output_path",
-                        type=str, help="the bynary synonym file")
-    parser.add_argument("-d", type=str, default="", dest="description", help="description comment")
-    return parser.parse_args()
-
-def main():
-    args = parse_argment()
-    header = DictionaryHeader(dictionaryversion.SYSTEM_DICT_VERSION_1, int(time.time()), args.description)
-    with open(args.output_path, "bw") as output:
-        output.write(header.to_byte())
-
-        builder = DictionaryBuilder()
-        builder.build(args.input_path, output)
-
-if __name__ == "__main__":
-    import argparse
-    main()
