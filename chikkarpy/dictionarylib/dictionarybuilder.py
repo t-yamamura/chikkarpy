@@ -1,4 +1,5 @@
 from logging import DEBUG, StreamHandler, getLogger
+
 from dartsclone import DoubleArray
 from sortedcontainers import SortedDict
 
