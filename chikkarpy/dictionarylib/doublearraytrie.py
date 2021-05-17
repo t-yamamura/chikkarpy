@@ -32,32 +32,32 @@ class DoubleArrayTrie(object):
 
         self.storage_size = position - offset
 
-    def lookup(self, text, offset):
-        """
+    def lookup_by_common_prefix(self, text, offset):
+        """Searches group IDs with the `text` by common prefix.
 
         Args:
             text (bytes): a memory-mapped dictionary
             offset (int): byte offset
 
         Yields:
-
+            tuple[int, int]: a group ID and
         """
         key = text[offset:]
         result = self.trie.common_prefix_search(key, length=len(key))
         for index, length in result:
-            word_ids = self.group_id_table.get(index)
+            group_ids = self.group_id_table.get(index)
             length += offset
-            for word_id in word_ids:
-                yield word_id, length
+            for group_id in group_ids:
+                yield group_id, length
 
-    def lookup_from_bytes(self, text):
-        """
+    def lookup_by_exact_match(self, text):
+        """Searches group IDs with the ``text`` by exact match.
 
         Args:
-            text (bytes):
+            text (bytes): a head word to search for
 
         Returns:
-            list[int]:
+            list[int]: a list of synonym group IDs
         """
         results = self.trie.exact_match_search(text)
         if results[0] < 0:

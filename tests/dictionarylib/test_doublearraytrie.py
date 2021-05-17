@@ -19,7 +19,7 @@ class TestDoubleArrayTrie(TestCase):
         self.trie = DoubleArrayTrie(bytes_, header.storage_size())
 
     def test_common_prefix_search(self):
-        results = list(self.trie.lookup("open".encode(self.ENCODING), 0))
+        results = list(self.trie.lookup_by_common_prefix("open".encode(self.ENCODING), 0))
         self.assertEqual(len(results), 2)
         r1, r2 = results
         self.assertEqual(r1[0], 6)
@@ -28,8 +28,8 @@ class TestDoubleArrayTrie(TestCase):
         self.assertEqual(r2[1], 4)
 
     def test_exact_match(self):
-        self.assertCountEqual(self.trie.lookup_from_bytes("open".encode(self.ENCODING)), [6, 100006])
-        self.assertFalse(self.trie.lookup_from_bytes("nothing".encode(self.ENCODING)))
+        self.assertCountEqual(self.trie.lookup_by_exact_match("open".encode(self.ENCODING)), [6, 100006])
+        self.assertFalse(self.trie.lookup_by_exact_match("nothing".encode(self.ENCODING)))
 
     def test_storage_size(self):
         self.assertEqual(self.trie.get_storage_size(), 1095)

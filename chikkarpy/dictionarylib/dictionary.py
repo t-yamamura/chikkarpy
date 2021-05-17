@@ -32,7 +32,7 @@ class Dictionary(object):
             list[int]: an array of synonym group IDs found, or an empty array if not found
         """
         if self.enable_trie or group_ids is None:
-            return self.dict_.trie.lookup_from_bytes(word.encode('utf-8'))
+            return self.dict_.trie.lookup_by_exact_match(word.encode('utf-8'))
         else:
             return group_ids
 
