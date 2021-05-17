@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from chikkarpy.synonym import Form, Acronym, Variant
-from chikkarpy.dictionary.flags import Flags
+from chikkarpy.dictionarylib.flags import Flags
 
 
 class TestFlags(TestCase):

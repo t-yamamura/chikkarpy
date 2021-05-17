@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from chikkarpy.synonym import Synonym
 from chikkarpy.synonymgroup import SynonymGroup
-from chikkarpy.dictionary.flags import Flags
+from chikkarpy.dictionarylib.flags import Flags
 
 
 class TestSynonymGroup(TestCase):

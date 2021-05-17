@@ -4,7 +4,7 @@ import unittest
 # from unittest import TestCase
 
 from chikkarpy import Chikkar
-from chikkarpy.dictionary import Dictionary
+from chikkarpy.dictionarylib import Dictionary
 
 
 class TestChikkar(unittest.TestCase):

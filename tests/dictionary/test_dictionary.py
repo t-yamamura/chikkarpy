@@ -2,7 +2,7 @@ import os
 
 from unittest import TestCase
 
-from chikkarpy.dictionary import Dictionary
+from chikkarpy.dictionarylib import Dictionary
 
 
 class TestDictionary(TestCase):

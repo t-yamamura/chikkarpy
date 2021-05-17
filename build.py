@@ -1,8 +1,8 @@
 import time
 import argparse
-from chikkarpy.dictionary.dictionaryversion import SYSTEM_DICT_VERSION_1
-from chikkarpy.dictionary.dictionaryheader import DictionaryHeader
-from chikkarpy.dictionary.dictionarybuilder import DictionaryBuilder
+from chikkarpy.dictionarylib.dictionaryversion import SYSTEM_DICT_VERSION_1
+from chikkarpy.dictionarylib.dictionaryheader import DictionaryHeader
+from chikkarpy.dictionarylib.dictionarybuilder import DictionaryBuilder
 
 def parse_argment():
     parser = argparse.ArgumentParser(

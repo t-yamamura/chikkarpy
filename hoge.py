@@ -1,5 +1,5 @@
 from chikkarpy import Chikkar
-from chikkarpy.dictionary import Dictionary as SynDic
+from chikkarpy.dictionarylib import Dictionary as SynDic
 from sudachipy.dictionary import Dictionary
 from sudachipy.tokenizer import Tokenizer
 

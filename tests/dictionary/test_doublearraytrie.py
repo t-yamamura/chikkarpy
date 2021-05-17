@@ -3,8 +3,8 @@ import os
 
 from unittest import TestCase
 
-from chikkarpy.dictionary.dictionaryheader import DictionaryHeader
-from chikkarpy.dictionary.doublearraytrie import DoubleArrayTrie
+from chikkarpy.dictionarylib.dictionaryheader import DictionaryHeader
+from chikkarpy.dictionarylib.doublearraytrie import DoubleArrayTrie
 
 
 class TestDoubleArrayTrie(TestCase):

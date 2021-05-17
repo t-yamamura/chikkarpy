@@ -1,6 +1,6 @@
 from enum import IntEnum
 
-from chikkarpy.dictionary.flags import Flags
+from chikkarpy.dictionarylib.flags import Flags
 
 
 class Form(IntEnum):
