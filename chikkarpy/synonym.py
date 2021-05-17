@@ -1,5 +1,7 @@
 from enum import IntEnum
 
+from chikkarpy.dictionary.flags import Flags
+
 
 class Form(IntEnum):
     # Typical form
@@ -44,7 +46,7 @@ class Synonym(object):
         Args:
             head_word (str): a notation string
             lexeme_ids (list[int]): a ID of lexeme in the synonym group
-            flags (chikkarpy.dictionary.flags.Flags): encoded flags
+            flags (Flags): encoded flags
             category (str): category Information of the synonym
         """
         self._head_word = head_word
@@ -59,7 +61,7 @@ class Synonym(object):
 
     @property
     def lexeme_ids(self):
-        """list[int]: the IDs of the lexemes that corresponds to this synonym."""
+        """list[int]: the IDs of the lexemes that corresponds to this synonym"""
         return self._lexeme_ids
 
     @property
@@ -84,11 +86,11 @@ class Synonym(object):
 
     @property
     def acronym_type(self):
-        """int: the acronym type of this synonym."""
+        """int: the acronym type of this synonym"""
         return self._flags.acronym_type
 
     @property
     def variant_type(self):
-        """int: the variant type of this synonym."""
+        """int: the variant type of this synonym"""
         return self._flags.variant_type
 

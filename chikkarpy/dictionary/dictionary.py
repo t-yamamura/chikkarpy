@@ -1,5 +1,4 @@
-
-
+from chikkarpy.synonymgroup import SynonymGroup
 from .binarydictionary import BinaryDictionary
 from .synonym_group_list import SynonymGroupList
 
@@ -12,7 +11,6 @@ class Dictionary(object):
         """Reads the synonym dictionary from the specified file.
 
         If ``enableTrie`` is ``false``, a search by synonym group IDs takes precedence over a search by the headword.
-
 
         Args:
             filename (str): path of synonym dictionary file
@@ -28,7 +26,7 @@ class Dictionary(object):
 
         Args:
             word (str): a headword to search for
-            group_ids (list[int]| None): an array of synonym group IDs to search for
+            group_ids (list[int] | None): an array of synonym group IDs to search for
 
         Returns:
             list[int]: an array of synonym group IDs found, or an empty array if not found
@@ -45,7 +43,7 @@ class Dictionary(object):
             group_id (int): a synonym group ID
 
         Returns:
-            chikkarpy.synonymgroup.SynonymGroup | None: the group of synonyms with the specified ID, or None if no ID matches
+            SynonymGroup | None: the group of synonyms with the specified ID, or None if no ID matches
         """
         return self.group_list.get_synonym_group(group_id)
 

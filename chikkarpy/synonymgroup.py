@@ -1,3 +1,4 @@
+from chikkarpy.synonym import Synonym
 
 
 class SynonymGroup(object):
@@ -9,7 +10,7 @@ class SynonymGroup(object):
 
         Args:
             group_id (int): a synonym group ID
-            synonyms (list[chikkarpy.synonym.Synonym]): a list of synonyms
+            synonyms (list[Synonym]): a list of synonyms
         """
         self._group_id = group_id
         self._synonyms = synonyms
@@ -26,7 +27,7 @@ class SynonymGroup(object):
         """Returns the list of synonyms in this group.
 
         Returns:
-            list[chikkarpy.synonym.Synonym]: the list of synonyms in this group
+            list[Synonym]: the list of synonyms in this group
         """
         return self._synonyms
 
@@ -37,7 +38,7 @@ class SynonymGroup(object):
             word (str): a headword
 
         Returns:
-            chikkarpy.synonym.Synonym | None: the synonym with the specified headword, or None if a synonym is not found
+            Synonym | None: the synonym with the specified headword, or ``None`` if a synonym is not found
         """
         for synonym in self._synonyms:
             if synonym.head_word == word:

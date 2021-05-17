@@ -1,16 +1,13 @@
-from functools import singledispatch
-
-
 class Flags:
     def __init__(self, has_ambiguity, is_noun, form_type, acronym_type, variant_type):
-        """
+        """Constructs flags of a synonym.
 
         Args:
             has_ambiguity (bool): ``True`` if a synonym is ambiguous, ``False`` otherwise
             is_noun (bool): ``True`` if a synonym is a noun, ``False`` otherwise
-            form_type (int):
-            acronym_type (int):
-            variant_type (int):
+            form_type (int): a word form type of a synonym
+            acronym_type (int): an acronym type of a synonym
+            variant_type (int): a variant type of a synonym
         """
         self._has_ambiguity = has_ambiguity
         self._is_noun = is_noun
@@ -20,13 +17,13 @@ class Flags:
 
     @classmethod
     def from_int(cls, flags):
-        """
+        """Reads and returns flags from the specified int value.
 
         Args:
-            flags (int):
+            flags (int): int-type flag
 
         Returns:
-
+            Flags: a flags of a synonym
         """
         has_ambiguity = ((flags & 0x0001) == 1)
         is_noun = ((flags & 0x0002) == 2)
@@ -37,29 +34,34 @@ class Flags:
 
     @property
     def has_ambiguity(self):
+        """bool: ``True`` if a synonym is ambiguous, ``False`` otherwise"""
         return self._has_ambiguity
 
     @property
     def is_noun(self):
+        """bool: ``True`` if a synonym is a noun, ``False`` otherwise"""
         return self._is_noun
 
     @property
     def form_type(self):
+        """int: a word form type of a synonym"""
         return self._form_type
 
     @property
     def acronym_type(self):
+        """int: an acronym type of a synonym"""
         return self._acronym_type
 
     @property
     def variant_type(self):
+        """int: a variant type of a synonym"""
         return self._variant_type
 
     def encode(self):
-        """
+        """Encodes this ``Flags`` object.
 
         Returns:
-            int:
+            int: encoded flags
         """
         flags = 0
         flags |= 1 if self.has_ambiguity else 0

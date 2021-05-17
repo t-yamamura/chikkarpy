@@ -9,13 +9,13 @@ from .doublearraytrie import DoubleArrayTrie
 class BinaryDictionary(object):
 
     def __init__(self, bytes_, header, trie, offset):
-        """
+        """Constructs a new dictionary.
 
         Args:
-            bytes_ (mmap.mmap):
-            header (DictionaryHeader):
-            trie (DoubleArrayTrie):
-            offset (int):
+            bytes_ (mmap.mmap): a memory-mapped dictionary
+            header (DictionaryHeader): a header of dictionary
+            trie (DoubleArrayTrie): a double array trie
+            offset (int): byte offset
         """
         self._bytes = bytes_
         self._header = header
@@ -24,14 +24,14 @@ class BinaryDictionary(object):
 
     @staticmethod
     def _read_dictionary(filename, access=mmap.ACCESS_READ):
-        """
+        """Reads the synonym dictionary from the specified file.
 
         Args:
-            filename (str):
-            access (int):
+            filename (str): the file path of a synonym dictionary
+            access (int): file-open mode
 
         Returns:
-
+            tuple[mmap.mmap, DictionaryHeader, DoubleArrayTrie, int]: byte data to be read
         """
         with open(filename, 'rb') as system_dic:
             bytes_ = mmap.mmap(system_dic.fileno(), 0, access=access)
@@ -50,17 +50,15 @@ class BinaryDictionary(object):
 
     @classmethod
     def from_system_dictionary(cls, filename):
-        """
+        """Constructs a new dictionary and return a ``BinaryDictionary`` object.
 
         Args:
-            filename (str):
+            filename (str): the file path of a synonym dictionary
 
         Returns:
-            chikkarpy.dictionary.binarydictionary.BinaryDictionary:
+            BinaryDictionary: a binary dictionary
         """
         args = cls._read_dictionary(filename)
-        if not args[1].is_dictionary():
-            raise IOError('invalid system dictionary')
         return cls(*args)
 
     def close(self):
@@ -69,20 +67,20 @@ class BinaryDictionary(object):
 
     @property
     def bytes(self):
-        """mmap.mmap:"""
+        """mmap.mmap: a memory-mapped dictionary"""
         return self._bytes
 
     @property
     def header(self):
-        """chikkarpy.dictionary.dictionaryheader.DictionaryHeader: a"""
+        """DictionaryHeader: a header of dictionary"""
         return self._header
 
     @property
     def trie(self):
-        """chikkarpy.dictionary.doublearraytrie.DoubleArrayTrie: a"""
+        """DoubleArrayTrie: a double array trie"""
         return self._trie
 
     @property
     def offset(self):
-        """int: """
+        """int: byte offset"""
         return self._offset

@@ -8,9 +8,11 @@ from . import idtable
 class DoubleArrayTrie(object):
 
     def __init__(self, bytes_, offset):
-        """
-        :param mmap.mmap bytes_:
-        :param int offset:
+        """Constructs a new double-array trie
+
+        Args:
+            bytes_ (mmap.mmap): a memory-mapped dictionary
+            offset (int): byte offset
         """
         position = offset
         self.trie = DoubleArray()
@@ -33,12 +35,16 @@ class DoubleArrayTrie(object):
     def lookup(self, text, offset):
         """
 
-        :param bytes text:
-        :param int offset:
-        :return:
+        Args:
+            text (bytes): a memory-mapped dictionary
+            offset (int): byte offset
+
+        Yields:
+
         """
         key = text[offset:]
         result = self.trie.common_prefix_search(key, length=len(key))
+        print(result, flush=True)
         for index, length in result:
             word_ids = self.group_id_table.get(index)
             length += offset
@@ -61,8 +67,5 @@ class DoubleArrayTrie(object):
             return list(self.group_id_table.get(results[0]))
 
     def get_storage_size(self):
-        """
-        :return:
-        :rtype: int
-        """
+        """int: a storage size of the double-array trie"""
         return self.storage_size

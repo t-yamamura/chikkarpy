@@ -12,7 +12,7 @@ class DictionaryHeader(object):
     __STORAGE_SIZE = 8 + 8 + __DESCRIPTION_SIZE
 
     def __init__(self, version, create_time, description):
-        """
+        """Constructs a dictionary header.
 
         Args:
             version (int): a dictionary version ID
@@ -25,15 +25,14 @@ class DictionaryHeader(object):
 
     @classmethod
     def from_bytes(cls, bytes_, offset):
-        """
-        Reads the dictionary header from the specified byte object and returns it
+        """Reads the dictionary header from the specified byte object and returns a ``DictionaryHeader`` object.
 
         Args:
-            bytes_ (mmap.mmap):
-            offset (int):
+            bytes_ (mmap.mmap): a memory-mapped dictionary
+            offset (int): byte offset
 
         Returns:
-            DictionaryHeader:
+            DictionaryHeader: a dictionary header
         """
         version, create_time = struct.unpack_from("<2Q", bytes_, offset)
         offset += 16
@@ -47,10 +46,11 @@ class DictionaryHeader(object):
         return cls(version, create_time, description)
 
     def storage_size(self):
+        """int: a storage size of the dictionary header"""
         return self.__STORAGE_SIZE
 
     def to_byte(self):
-        """DictionaryHeader to binary converter
+        """DictionaryHeader to binary converter.
 
         Returns:
             bytes: a binarized dictionary header

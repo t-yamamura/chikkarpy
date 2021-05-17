@@ -1,3 +1,5 @@
+from chikkarpy.dictionary import Dictionary
+
 
 class Chikkar(object):
     """
@@ -17,10 +19,10 @@ class Chikkar(object):
     def add_dictionary(self, dictionary):
         """Add a synonym dictionary.
 
-        Adds a dictionary to be used for search. When searching, the dictionary added later takes precedence.
+        Adds a ``dictionary`` to be used for search. When searching, the dictionary added later takes precedence.
 
         Args:
-            dictionary (chikkarpy.dictionary.Dictionary): a synonym dictionary
+            dictionary (Dictionary): a synonym dictionary
         """
         self._dictionaries.insert(0, dictionary)
 
@@ -36,7 +38,7 @@ class Chikkar(object):
             group_ids (list[int]): synonym group IDs
 
         Returns:
-            list[str]: a list of synonyms
+            list[str]: a list of synonym head words
         """
         for dictionary in self._dictionaries:
             group_ids = dictionary.lookup(word, group_ids)
@@ -53,15 +55,24 @@ class Chikkar(object):
         return []
 
     def gather_head_word(self, word, group_id, dictionary):
-        """
+        """Searches synonyms by the ``group_id`` from the ``dictionary``.
 
         Args:
-            word (str):
-            group_id (int):
-            dictionary (chikkarpy.dictionary.Dictionary):
+            word (str): keyword
+            group_id (int): synonym group ID
+            dictionary (Dictionary): a synonym dictionary
 
         Returns:
-            list[str] | None: head words
+            list[str] | None: head words of synonyms.
+
+                If synonyms with the specified group ID exist in a dictionary, head words of the synonyms are returned.
+
+                Returns ``None`` in the following cases:
+                    1. The synonym group with the ``group_id`` does not exist in the ``dictionary``.
+                    2. The ``key`` is ambiguous, which is not a trigger of synonym expansion.
+
+        Raises:
+            ValueError: The ``group_id`` is defined in the dictionary, but the ``key`` does not exist in the group.
         """
         head_words = []
 
