@@ -80,6 +80,5 @@ class SynonymGroupList(object):
             list[int]: a list of short
         """
         length = self.bytes_.read_byte()
-        print(length, int(length))
         _bytes = self.bytes_.read(2 * length)
         return list(struct.unpack('{}h'.format(length), _bytes))

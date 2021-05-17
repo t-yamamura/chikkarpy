@@ -44,7 +44,6 @@ class DoubleArrayTrie(object):
         """
         key = text[offset:]
         result = self.trie.common_prefix_search(key, length=len(key))
-        print(result, flush=True)
         for index, length in result:
             word_ids = self.group_id_table.get(index)
             length += offset
