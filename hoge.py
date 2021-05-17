@@ -7,10 +7,10 @@ from sudachipy.tokenizer import Tokenizer
 # tokenizer_obj =
 chikkar = Chikkar()
 
-system_dic = SynDic("system_syn.dic", False)
+system_dic = SynDic("hoge.dic", False)
 chikkar.add_dictionary(system_dic)
-print(chikkar.find("粗筋"))
-print(chikkar.find("nothing", group_ids=[6]))
+print(chikkar.find("閉店"))
+# print(chikkar.find("nothing", group_ids=[6]))
 
 # system_dic = SynDic("tests/dict/system.dic", False)
 # user_dic = SynDic("tests/dict/user.dic", True)

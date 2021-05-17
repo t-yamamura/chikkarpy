@@ -1,6 +1,16 @@
 from enum import IntEnum
-
 from chikkarpy.dictionarylib.flags import Flags
+
+
+class IsNoun(IntEnum):
+    TRUE = 1
+    FALSE = 2
+
+
+class Ambiguity(IntEnum):
+    FALSE = 0
+    TRUE = 1
+    INVALID = 2
 
 
 class Form(IntEnum):
@@ -45,7 +55,7 @@ class Synonym(object):
 
         Args:
             head_word (str): a notation string
-            lexeme_ids (list[int]): a ID of lexeme in the synonym group
+            lexeme_ids (list[int]): IDs of lexeme in the synonym group
             flags (Flags): encoded flags
             category (str): category Information of the synonym
         """
@@ -68,6 +78,11 @@ class Synonym(object):
     def category(self):
         """str: the category information of this synonym"""
         return self._category
+
+    @property
+    def flags(self):
+        """Flags: encoded flags"""
+        return self._flags
 
     @property
     def has_ambiguity(self):

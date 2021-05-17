@@ -1,8 +1,10 @@
+from enum import IntEnum
 from logging import DEBUG, StreamHandler, getLogger
 
 from dartsclone import DoubleArray
 from sortedcontainers import SortedDict
 
+from chikkarpy.synonym import IsNoun, Ambiguity, Form, Acronym, Variant, Synonym
 from .flags import Flags
 from .jtypedbytebuffer import JTypedByteBuffer
 
@@ -10,15 +12,47 @@ from .jtypedbytebuffer import JTypedByteBuffer
 class DictionaryBuilder:
     __BYTE_MAX_VALUE = 127
 
-    class SynonymEntry:
-        headword = None
-        group_id = None
-        lexeme_ids = None
-        flags = None
-        category = None
+    class Column(IntEnum):
+        """https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md"""
+        GROUP_ID = 0
+        IS_NOUN = 1
+        AMBIGUITY = 2
+        LEXEME_IDS = 3
+        FORM_TYPE = 4
+        ACRONYM_TYPE = 5
+        VARIANT_TYPE = 6
+        CATEGORY = 7
+        HEAD_WORD = 8
+
+    class SynonymWithGroupId:
+        def __init__(self, group_id, synonym):
+            """Constructs a synonym with its group ID
+
+            Args:
+                group_id (int): a group ID
+                synonym (Synonym): a synonym object
+            """
+            self._synonym = synonym
+            self._group_id = group_id
+
+        @property
+        def group_id(self): return self._group_id
+        @property
+        def headword(self): return self._synonym.head_word
+        @property
+        def lexeme_ids(self): return self._synonym.lexeme_ids
+        @property
+        def flags(self): return self._synonym.flags
+        @property
+        def category(self): return self._synonym.category
 
     @staticmethod
     def __default_logger():
+        """Sets and returns a default logging
+
+        Returns:
+            StreamHandler: a default logging
+        """
         handler = StreamHandler()
         handler.terminator = ""
         handler.setLevel(DEBUG)
@@ -48,7 +82,7 @@ class DictionaryBuilder:
         try:
             for i, row in enumerate(synonym_input_stream):
                 line_no = i
-                if (not row or row.isspace()):
+                if not row or row.isspace():
                     if len(block) == 0:
                         continue
                     else:
@@ -76,22 +110,25 @@ class DictionaryBuilder:
 
     def parse_line(self, line):
         cols = line.split(",")
-        if len(cols) < 9:
+        if len(cols) <= max(map(int, self.Column)):
             raise ValueError('invalid format')
-        if cols[2] == "2":
+        if int(cols[self.Column.AMBIGUITY]) == Ambiguity.INVALID:
             return None
-        entry = self.SynonymEntry()
-        entry.group_id = int(cols[0])
-        entry.lexeme_ids = cols[0] if cols[3] == "" else list(
-            map(int, cols[3].split("/")))
-        entry.headword = cols[8]
-        has_ambiguity = self.parse_boolean(cols[2], "0", "1")
-        is_noun = self.parse_boolean(cols[1], "2", "1")
-        form_type = self.parse_int(cols[4], 4)
-        acronym_type = self.parse_int(cols[5], 2)
-        variant_type = self.parse_int(cols[6], 3)
-        entry.flags = Flags(has_ambiguity, is_noun, form_type, acronym_type, variant_type)
-        entry.category = cols[7]
+
+        group_id = int(cols[self.Column.GROUP_ID])
+
+        lexeme_ids = cols[self.Column.GROUP_ID] if cols[self.Column.LEXEME_IDS] == "" else list(map(int, cols[self.Column.LEXEME_IDS].split("/")))
+        headword = cols[self.Column.HEAD_WORD]
+        _is_noun = self.parse_boolean(cols[self.Column.IS_NOUN], IsNoun.FALSE, IsNoun.TRUE)
+        _has_ambiguity = self.parse_boolean(cols[self.Column.AMBIGUITY], Ambiguity.FALSE, Ambiguity.TRUE)
+        _form_type = self.parse_int(cols[self.Column.FORM_TYPE], max(map(int, Form)))
+        _acronym_type = self.parse_int(cols[self.Column.ACRONYM_TYPE], max(map(int, Acronym)))
+        _variant_type = self.parse_int(cols[self.Column.VARIANT_TYPE], max(map(int, Variant)))
+        flags = Flags(_has_ambiguity, _is_noun, _form_type, _acronym_type, _variant_type)
+        category = cols[self.Column.CATEGORY]
+
+        entry = self.SynonymWithGroupId(group_id, Synonym(headword, lexeme_ids, flags, category))
+
         return entry
 
     def add_to_trie(self, headword, group_id):
@@ -151,7 +188,7 @@ class DictionaryBuilder:
             self.byte_buffer.write_int(len(entries), 'short')
             for entry in entries:
                 self.write_string(entry.headword)
-                self.write_shortarray(entry.lexeme_ids)
+                self.write_short_array(entry.lexeme_ids)
                 self.byte_buffer.write_int(entry.flags.encode(), 'short')
                 self.write_string(entry.category)
             self.byte_buffer.seek(0)
@@ -165,18 +202,21 @@ class DictionaryBuilder:
         io_out.write(offsets.read())
         self.__logging_size(offsets.tell())
 
-    def parse_boolean(self, s, false_string, true_string):
-        if s == false_string:
+    @staticmethod
+    def parse_boolean(s, false_value, true_value):
+        v = int(s)
+        if v == false_value:
             return False
-        elif s == true_string:
+        elif v == true_value:
             return True
         else:
-            raise ValueError("invalid value: " + s)
+            raise ValueError("invalid value: {}".format(s))
 
-    def parse_int(self, s, limit):
+    @staticmethod
+    def parse_int(s, limit):
         v = int(s)
         if v < 0 or v > limit:
-            raise ValueError("invalid value: " + s)
+            raise ValueError("invalid value: {}".format(s))
         return v
 
     def write_string(self, text):
@@ -186,21 +226,20 @@ class DictionaryBuilder:
                 len_ += 2
             else:
                 len_ += 1
-        self.write_stringlength(len_)
+        self.write_string_length(len_)
         self.byte_buffer.write_str(text)
 
-    def write_shortarray(self, array):
+    def write_short_array(self, array):
         self.byte_buffer.write_int(len(array), 'byte')
         for item in array:
             self.byte_buffer.write_int(item, 'short')
 
-    def write_stringlength(self, len_):
+    def write_string_length(self, len_):
         if len_ <= self.__BYTE_MAX_VALUE:
             self.byte_buffer.write_int(len_, 'byte')
         else:
             self.byte_buffer.write_int((len_ >> 8) | 0x80, 'byte')
             self.byte_buffer.write_int((len_ & 0xFF), 'byte')
-
 
     def __logging_size(self, size):
         self.logger.info('{} bytes\n'.format(size))
