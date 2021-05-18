@@ -5,6 +5,8 @@ chikkarpy is a Python version of chikkar.
 
 chikkarpy は [Sudachi 同義語辞書](https://github.com/WorksApplications/SudachiDict/)を利用し、[SudachiPy](https://github.com/WorksApplications/SudachiPy)の出力に同義語展開を追加するために開発されたライブラリです。
 
+単体でも同義語辞書の検索ツールとして利用できます。
+
 ## 利用方法 Ussage
 ## TL;DR
 ```
