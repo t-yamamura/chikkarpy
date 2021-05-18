@@ -1,8 +1,6 @@
 name: test
 
 on:
-  issues:
-    types: [opened, edited, milestoned]
   push:
     branches:
       - master
@@ -15,11 +13,7 @@ jobs:
     name: Test package
     runs-on: ubuntu-latest
     steps:
-      - name: print a greeting
-        env:
-          MY_VAR: Hi there! My name is
-          FIRST_NAME: Mona
-          MIDDLE_NAME: The
-          LAST_NAME: Octocat
+      - name: Run Tests
         run: |
-          echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
+          cp .travis/system.dic.test tests/resources/system.dic && cp .travis/user.dic.test tests/resources/user.dic && cp .travis/user2.dic.test tests/resources/user2.dic
+          python -m unittest discover tests
