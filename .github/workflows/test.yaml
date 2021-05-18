@@ -15,5 +15,6 @@ jobs:
     steps:
       - name: Run Tests
         run: |
+          pwd
           cp .travis/system.dic.test tests/resources/system.dic && cp .travis/user.dic.test tests/resources/user.dic && cp .travis/user2.dic.test tests/resources/user2.dic
           python -m unittest discover tests
