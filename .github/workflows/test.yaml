@@ -13,9 +13,8 @@ jobs:
     name: Test package
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Run Tests
         run: |
-          pwd
-          ls
           cp .travis/system.dic.test tests/resources/system.dic && cp .travis/user.dic.test tests/resources/user.dic && cp .travis/user2.dic.test tests/resources/user2.dic
           python -m unittest discover tests
