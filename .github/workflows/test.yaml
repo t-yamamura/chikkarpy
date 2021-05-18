@@ -1,0 +1,25 @@
+name: test
+
+on:
+  issues:
+    types: [opened, edited, milestoned]
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  ci:
+    name: Test package
+    runs-on: ubuntu-latest
+    steps:
+      - name: print a greeting
+      env:
+        MY_VAR: Hi there! My name is
+        FIRST_NAME: Mona
+        MIDDLE_NAME: The
+        LAST_NAME: Octocat
+      run: |
+        echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
