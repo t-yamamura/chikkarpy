@@ -1,10 +1,9 @@
 # chikkarpy
 
-chikkarpyは[chikkar](https://github.com/WorksApplications/chikkar)のPython版です。  
+chikkarpyは[chikkar](https://github.com/WorksApplications/chikkar)のPython版です。 
 chikkarpy is a Python version of chikkar.
 
-chikkarpy は [Sudachi 同義語辞書](https://github.com/WorksApplications/SudachiDict/)を利用するためのライブラリです。  
-chikkarpy is a library for using the Sudachi synonym dictionary.
+chikkarpy は [Sudachi 同義語辞書](https://github.com/WorksApplications/SudachiDict/)を利用し、[SudachiPy](https://github.com/WorksApplications/SudachiPy)の出力に同義語展開を追加するために開発されたライブラリです。
 
 ## 利用方法 Ussage
 ## TL;DR
@@ -36,6 +35,7 @@ chikkarpyは入力された単語を見て一致する同義語のリストを�
 出力は`同義語リスト\t同義語グループID`の形式です。
 
 ### python ライブラリ
+使用例
 ```
 from chikkarpy import Chikkar
 from chikkarpy.dictionarylib import Dictionary
