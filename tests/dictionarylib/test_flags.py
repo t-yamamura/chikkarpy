@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from chikkarpy.synonym import Form, Acronym, Variant
+from chikkarpy.dictionarylib.format import Form, Acronym, Variant
 from chikkarpy.dictionarylib.flags import Flags
 
 
