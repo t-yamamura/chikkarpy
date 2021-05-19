@@ -5,8 +5,6 @@ import os
 import sys
 import time
 
-from . import __version__
-
 from . import Chikkar
 from .dictionarylib import Dictionary
 from .dictionarylib.dictionarybuilder import DictionaryBuilder
@@ -43,6 +41,7 @@ argparse.ArgumentParser.set_default_subparser = _set_default_subparser
 
 
 def print_version():
+    from . import __version__
     print('chikkarpy {}'.format(__version__))
 
 
