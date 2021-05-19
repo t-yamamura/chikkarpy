@@ -1,6 +1,6 @@
 # chikkarpy
 [![](https://img.shields.io/badge/python-3.5+-blue.svg)](https://www.python.org/downloads/release/python-350/)
-[![Build Status](https://github.com/t-yamamura/chikkarpy/actions/workflows/main.yml/badge.svg)](https://github.com/t-yamamura/chikkarpy/actions)
+[![Build Status](https://github.com/t-yamamura/chikkarpy/actions/workflows/test.yml/badge.svg)](https://github.com/t-yamamura/chikkarpy/actions)
 
 chikkarpyは[chikkar](https://github.com/WorksApplications/chikkar)のPython版です。 
 chikkarpy is a Python version of chikkar.
