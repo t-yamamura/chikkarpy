@@ -1,4 +1,4 @@
-name: Package Tester
+name: test
 
 on:
   push:
