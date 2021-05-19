@@ -105,7 +105,7 @@ ENV/
 .idea/
 .vscode/
 
-# Sudachi dictionary
+# dictionary
 *.dic
 
 _*/
