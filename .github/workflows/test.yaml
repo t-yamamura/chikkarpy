@@ -44,6 +44,7 @@ jobs:
             DES="the ${DIC_TYPE} dictionary for the unit tests"
             python -c "import sys; from chikkarpy.command_line import build_dictionary; build_dictionary(sys.argv[1], sys.argv[2], sys.argv[3]);" "${IN}" "${OUT}" "${DES}"
           done
+        shell: bash
 
       - name: Run Test
         run: |
