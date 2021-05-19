@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages
 
-
 setup(
     name="ChikkarPy",
     description="Python version of Chikkar, a library for using the Sudachi synonym dictionary",
@@ -10,6 +9,10 @@ setup(
     license="Apache-2.0",
     author="Works Applications",
     packages=find_packages(include=["chikkarpy", "chikkarpy.*"]),
+    package_data={"": ["resources/*.dic"]},
+    entry_points={
+        "console_scripts": ["chikkarpy=chikkarpy.command_line:main"]
+    },
     install_requires=[
         "dartsclone~=0.9.0",
         "sortedcontainers~=2.1.0"

@@ -1,4 +1,4 @@
-from chikkarpy.dictionarylib import Dictionary
+from .dictionarylib import Dictionary
 
 
 class Chikkar(object):

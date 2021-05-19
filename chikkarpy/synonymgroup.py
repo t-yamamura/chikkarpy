@@ -1,4 +1,4 @@
-from chikkarpy.synonym import Synonym
+from .synonym import Synonym
 
 
 class SynonymGroup(object):

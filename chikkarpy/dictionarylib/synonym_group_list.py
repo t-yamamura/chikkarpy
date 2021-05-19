@@ -1,8 +1,8 @@
 import struct
 
-from chikkarpy.synonym import Synonym
-from chikkarpy.synonymgroup import SynonymGroup
-from chikkarpy.dictionarylib.flags import Flags
+from ..synonym import Synonym
+from ..synonymgroup import SynonymGroup
+from ..dictionarylib.flags import Flags
 
 
 class SynonymGroupList(object):

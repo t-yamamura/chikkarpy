@@ -1,4 +1,4 @@
-from chikkarpy.dictionarylib.flags import Flags
+from .dictionarylib.flags import Flags
 
 
 class Synonym(object):

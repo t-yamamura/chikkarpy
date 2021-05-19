@@ -4,7 +4,7 @@ from logging import DEBUG, StreamHandler, getLogger
 from dartsclone import DoubleArray
 from sortedcontainers import SortedDict
 
-from chikkarpy.synonym import Synonym
+from ..synonym import Synonym
 from .format import Column, IsNoun, Ambiguity, Form, Acronym, Variant
 from .flags import Flags
 from .jtypedbytebuffer import JTypedByteBuffer
@@ -71,6 +71,7 @@ class DictionaryBuilder:
             input_path (str): an input file path
             out_stream (BufferedWriter):
         """
+        self.logger.info('reading the source file...')
         with open(input_path, 'r', encoding='utf-8') as rf:
             self.build_synonym(rf)
         self.write_trie(out_stream)

@@ -1,4 +1,4 @@
-from chikkarpy.synonymgroup import SynonymGroup
+from ..synonymgroup import SynonymGroup
 from .binarydictionary import BinaryDictionary
 from .synonym_group_list import SynonymGroupList
 
