@@ -45,11 +45,11 @@ def print_version():
     print('chikkarpy {}'.format(__version__))
 
 
-def print_synonyms(input_, stdout_logger):
+def print_synonyms(dictionary, enable_verb, input_, stdout_logger):
     for word in input_:
         word = word.rstrip('\n')
         chikkar = Chikkar()
-        dic = Dictionary("/Users/yamamura_t/PycharmProjects/chikkarpy/system_syn.dic", False)
+        dic = Dictionary(dictionary, enable_verb)
         chikkar.add_dictionary(dic)
         stdout_logger.info("{}\t{}".format(word, ','.join(chikkar.find(word))))
 
@@ -63,7 +63,6 @@ def _command_search(args, print_usage):
     output = sys.stdout
     if args.fpath_out:
         output = open(args.fpath_out, "w", encoding="utf-8")
-    print("search")
 
     handler = logging.StreamHandler(output)
     handler.setLevel(logging.DEBUG)
@@ -73,7 +72,7 @@ def _command_search(args, print_usage):
 
     try:
         input_ = fileinput.input(args.in_files, openhook=fileinput.hook_encoded("utf-8"))
-        print_synonyms(input_, stdout_logger)
+        print_synonyms(args.dictionary, enable_verb, input_, stdout_logger)
     finally:
         if args.fpath_out:
             output.close()
@@ -108,13 +107,14 @@ def main():
 
     # root, search synonyms
     parser_ss = subparsers.add_parser('search', help='(default) see `search -h`', description='Search synonyms')
+    parser_ss.add_argument('-d', dest='dictionary', metavar='file',
+                           help='synonym dictionary')
     parser_ss.add_argument('-e', dest='enable_verb', action='store_true', default=False,
                            help='Enable verb and adjective synonyms.')
-    parser_ss.add_argument('-o', dest="fpath_out", metavar="file", help="the output file")
-    parser_ss.add_argument("in_files", metavar="file", nargs=argparse.ZERO_OR_MORE, help='text written in utf-8')
+    parser_ss.add_argument('-o', dest='fpath_out', metavar='file', help='the output file')
+    parser_ss.add_argument('in_files', metavar='file', nargs=argparse.ZERO_OR_MORE, help='text written in utf-8')
     parser_ss.add_argument('-v', '--version', action='store_true', dest='version', help='print chikkarpy version')
     parser_ss.set_defaults(handler=_command_search, print_usage=parser_ss.print_usage)
-
 
     # build dictionary parser
     parser_bd = subparsers.add_parser('build', help='see `build -h`', description='Build Synonym Dictionary')
