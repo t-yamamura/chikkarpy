@@ -1,3 +1,3 @@
+cython>=0.28
 dartsclone~=0.9.0
 sortedcontainers~=2.1.0
-# SudachiPy~=0.5.2.dev0+g1c407ca.d20210324
