@@ -72,7 +72,7 @@ def _command_search(args, print_usage):
 
     try:
         input_ = fileinput.input(args.in_files, openhook=fileinput.hook_encoded("utf-8"))
-        print_synonyms(args.dictionary, enable_verb, input_, stdout_logger)
+        print_synonyms(args.dictionary, args.enable_verb, input_, stdout_logger)
     finally:
         if args.fpath_out:
             output.close()
