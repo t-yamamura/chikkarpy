@@ -45,14 +45,14 @@ def print_version():
     print('chikkarpy {}'.format(__version__))
 
 
-def search_synonyms(enable_verb, dictionaries, enable_tries, input_, stdout_logger):
+def search_synonyms(enable_verb, dictionaries, input_, stdout_logger):
     for word in input_:
         word = word.rstrip('\n')
         chikkar = Chikkar()
         if enable_verb:
             chikkar.enable_verb()
-        for dictionary, enable_trie in zip(dictionaries, enable_tries):
-            dic = Dictionary(filename=dictionary, enable_trie=enable_trie)
+        for dictionary in dictionaries:
+            dic = Dictionary(filename=dictionary)
             chikkar.add_dictionary(dic)
         stdout_logger.info("{}\t{}".format(word, ','.join(chikkar.find(word))))
 
@@ -61,12 +61,6 @@ def _command_search(args, print_usage):
     if args.version:
         print_version()
         return
-
-    if len(args.dictionaries) != len(args.enable_tries):
-        raise ValueError(
-            "In case you specify multiple dictionary, "
-            "you must specify enable_trie for the same number of dictionaries, respectively."
-        )
 
     stdout_logger = logging.getLogger(__name__)
     output = sys.stdout
@@ -81,7 +75,7 @@ def _command_search(args, print_usage):
 
     try:
         input_ = fileinput.input(args.in_files, openhook=fileinput.hook_encoded("utf-8"))
-        search_synonyms(args.enable_verb, args.dictionaries, args.enable_tries, input_, stdout_logger)
+        search_synonyms(args.enable_verb, args.dictionaries, input_, stdout_logger)
     finally:
         if args.fpath_out:
             output.close()
@@ -108,17 +102,6 @@ def _command_build(args, print_usage):
     build_dictionary(args.input_file, args.output_file, args.description)
 
 
-def str2bool(v):
-    if isinstance(v, bool):
-        return v
-    if v.lower() in ('yes', 'true', 't', 'y', '1'):
-        return True
-    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
-        return False
-    else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
-
-
 def main():
     parser = argparse.ArgumentParser(description="Japanese Morphological Analyzer")
 
@@ -128,9 +111,6 @@ def main():
     parser_ss = subparsers.add_parser('search', help='(default) see `search -h`', description='Search synonyms')
     parser_ss.add_argument('-d', dest='dictionaries', metavar='file', nargs=argparse.ZERO_OR_MORE, default=[None],
                            help='synonym dictionary (default: system synonym dictionary)')
-    parser_ss.add_argument('-et', dest='enable_tries', type=str2bool, nargs=argparse.ZERO_OR_MORE, default=[False],
-                           help='If enable_trie is False, a search by synonym group IDs takes precedence '
-                                'over a search by the headword.')
     parser_ss.add_argument('-ev', dest='enable_verb', action='store_true', default=False,
                            help='Enable verb and adjective synonyms.')
     parser_ss.add_argument('-o', dest='fpath_out', metavar='file', help='the output file')
