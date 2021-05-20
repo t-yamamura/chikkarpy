@@ -46,10 +46,14 @@ def print_version():
 
 
 def print_synonyms(dictionary, enable_verb, input_, stdout_logger):
+    print("dictionary", dictionary)
+    print("enable_verb")
     for word in input_:
         word = word.rstrip('\n')
         chikkar = Chikkar()
-        dic = Dictionary(dictionary, enable_verb)
+        if enable_verb:
+            chikkar.enable_verb()
+        dic = Dictionary(filename=dictionary)
         chikkar.add_dictionary(dic)
         stdout_logger.info("{}\t{}".format(word, ','.join(chikkar.find(word))))
 
