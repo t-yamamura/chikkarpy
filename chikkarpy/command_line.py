@@ -45,14 +45,15 @@ def print_version():
     print('chikkarpy {}'.format(__version__))
 
 
-def print_synonyms(enable_verb, dictionary, enable_trie, input_, stdout_logger):
+def search_synonyms(enable_verb, dictionaries, enable_tries, input_, stdout_logger):
     for word in input_:
         word = word.rstrip('\n')
         chikkar = Chikkar()
         if enable_verb:
             chikkar.enable_verb()
-        dic = Dictionary(filename=dictionary, enable_trie=enable_trie)
-        chikkar.add_dictionary(dic)
+        for dictionary, enable_trie in zip(dictionaries, enable_tries):
+            dic = Dictionary(filename=dictionary, enable_trie=enable_trie)
+            chikkar.add_dictionary(dic)
         stdout_logger.info("{}\t{}".format(word, ','.join(chikkar.find(word))))
 
 
@@ -60,6 +61,12 @@ def _command_search(args, print_usage):
     if args.version:
         print_version()
         return
+
+    if len(args.dictionaries) != len(args.enable_tries):
+        raise ValueError(
+            "In case you specify multiple dictionary, "
+            "you must specify enable_trie for the same number of dictionaries, respectively."
+        )
 
     stdout_logger = logging.getLogger(__name__)
     output = sys.stdout
@@ -74,7 +81,7 @@ def _command_search(args, print_usage):
 
     try:
         input_ = fileinput.input(args.in_files, openhook=fileinput.hook_encoded("utf-8"))
-        print_synonyms(args.enable_verb, args.dictionary, args.enable_trie, input_, stdout_logger)
+        search_synonyms(args.enable_verb, args.dictionaries, args.enable_tries, input_, stdout_logger)
     finally:
         if args.fpath_out:
             output.close()
@@ -103,15 +110,14 @@ def _command_build(args, print_usage):
 
 def main():
     parser = argparse.ArgumentParser(description="Japanese Morphological Analyzer")
-    # parser.set_default_subparser = _set_default_subparser
 
     subparsers = parser.add_subparsers(description='')
 
     # root, search synonyms
     parser_ss = subparsers.add_parser('search', help='(default) see `search -h`', description='Search synonyms')
-    parser_ss.add_argument('-d', dest='dictionary', metavar='file', default=None,
+    parser_ss.add_argument('-d', dest='dictionaries', metavar='file', nargs=argparse.ZERO_OR_MORE, default=[None],
                            help='synonym dictionary (default: system synonym dictionary)')
-    parser_ss.add_argument('-et', dest='enable_trie', action='store_true', default=False,
+    parser_ss.add_argument('-et', dest='enable_tries', action='store_true', nargs=argparse.ZERO_OR_MORE, default=[False],
                            help='If enable_trie is False, a search by synonym group IDs takes precedence '
                                 'over a search by the headword.')
     parser_ss.add_argument('-ev', dest='enable_verb', action='store_true', default=False,
@@ -124,13 +130,11 @@ def main():
     # build dictionary parser
     parser_bd = subparsers.add_parser('build', help='see `build -h`', description='Build Synonym Dictionary')
     parser_bd.add_argument('-i', dest='input_file', metavar='file', required=True,
-                           help='input file (csv)')
+                           help='dictionary file (csv)')
     parser_bd.add_argument('-o', dest='out_file', metavar='file', default='synonym.dic', required=False,
                            help='output file (default: synonym.dic)')
     parser_bd.add_argument('-d', dest='description', metavar='string', default='', required=False,
                            help='description comment to be embedded on dictionary')
-    # parser_bd.add_argument("in_files", metavar="file", nargs=argparse.ZERO_OR_MORE,
-    #                        help='source files with CSV format (one or more)')
 
     parser_bd.set_defaults(handler=_command_build, print_usage=parser_bd.print_usage)
 
