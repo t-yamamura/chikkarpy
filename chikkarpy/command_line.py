@@ -108,6 +108,17 @@ def _command_build(args, print_usage):
     build_dictionary(args.input_file, args.output_file, args.description)
 
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
+
 def main():
     parser = argparse.ArgumentParser(description="Japanese Morphological Analyzer")
 
@@ -117,7 +128,7 @@ def main():
     parser_ss = subparsers.add_parser('search', help='(default) see `search -h`', description='Search synonyms')
     parser_ss.add_argument('-d', dest='dictionaries', metavar='file', nargs=argparse.ZERO_OR_MORE, default=[None],
                            help='synonym dictionary (default: system synonym dictionary)')
-    parser_ss.add_argument('-et', dest='enable_tries', action='store_true', nargs=argparse.ZERO_OR_MORE, default=[False],
+    parser_ss.add_argument('-et', dest='enable_tries', type=str2bool, nargs=argparse.ZERO_OR_MORE, default=[False],
                            help='If enable_trie is False, a search by synonym group IDs takes precedence '
                                 'over a search by the headword.')
     parser_ss.add_argument('-ev', dest='enable_verb', action='store_true', default=False,
