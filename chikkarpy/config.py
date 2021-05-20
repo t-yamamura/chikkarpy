@@ -33,6 +33,8 @@ def download_dictionary():
     _, _msg = urlretrieve(ZIP_URL, ZIP_NAME)
     with ZipFile(ZIP_NAME) as z:
         z.extractall()
+    logger.warning("UNZIP_NAME", os.path.abspath(UNZIP_NAME), UNZIP_NAME, flush=True)
+    logger.warning(DEFAULT_RESOURCEDIR, flush=True)
     os.rename(UNZIP_NAME, DEFAULT_RESOURCEDIR)
 
     os.remove(ZIP_NAME)
