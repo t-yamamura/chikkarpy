@@ -8,16 +8,16 @@ class Dictionary(object):
     """
     A container of synonyms
     """
-    def __init__(self, filename='', enable_trie=False):
+    def __init__(self, filename=None, enable_trie=False):
         """Reads the synonym dictionary from the specified file.
 
         If ``enableTrie`` is ``false``, a search by synonym group IDs takes precedence over a search by the headword.
 
         Args:
-            filename (str): path of synonym dictionary file
+            filename (str | None): path of synonym dictionary file
             enable_trie (bool): true to enable trie, otherwise false
         """
-        self.filename = filename if filename else get_system_dictionary_path()
+        self.filename = filename if filename is not None else get_system_dictionary_path()
         self.dict_ = BinaryDictionary.from_system_dictionary(filename)
         self.enable_trie = enable_trie
         self.group_list = SynonymGroupList(self.dict_.bytes, self.dict_.offset)
