@@ -41,4 +41,12 @@ def download_dictionary():
 
         logger.warning("... downloaded and placed the dictionary at `{}`.".format(DEFAULT_RESOURCEDIR))
     else:
-        logger.warning("DEFAULT_RESOURCEDIR is existed.")
+        logger.warning("Resource is already installed at `{}`.".format(DEFAULT_RESOURCEDIR))
+
+
+def get_system_dictionary_path():
+    dictionary_path = os.path.join(DEFAULT_RESOURCEDIR, BINARY_NAME)
+    if not os.path.exists(dictionary_path):
+        raise FileNotFoundError("Synonym dictionary is not installed.")
+
+    return dictionary_path
