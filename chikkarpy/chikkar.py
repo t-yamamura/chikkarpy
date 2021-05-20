@@ -82,8 +82,10 @@ class Chikkar(object):
 
         looked_up = synonym_group.lookup(word)
         if looked_up is None:
-            raise ValueError("The dictionary (``{}``) has a group ID of {}, "
-                             "but the key (``{}``) dose not exist in the group.".format(dictionary.filename, group_id, word))
+            raise ValueError(
+                "The dictionary (``{}``) has a group ID of {}, "
+                "but the key (``{}``) dose not exist in the group.".format(dictionary.filename, group_id, word)
+            )
         if looked_up.has_ambiguity:
             return None
 

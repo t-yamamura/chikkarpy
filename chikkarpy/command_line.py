@@ -45,15 +45,13 @@ def print_version():
     print('chikkarpy {}'.format(__version__))
 
 
-def print_synonyms(dictionary, enable_verb, input_, stdout_logger):
-    print("dictionary", dictionary)
-    print("enable_verb")
+def print_synonyms(enable_verb, dictionary, enable_trie, input_, stdout_logger):
     for word in input_:
         word = word.rstrip('\n')
         chikkar = Chikkar()
         if enable_verb:
             chikkar.enable_verb()
-        dic = Dictionary(filename=dictionary)
+        dic = Dictionary(filename=dictionary, enable_trie=enable_trie)
         chikkar.add_dictionary(dic)
         stdout_logger.info("{}\t{}".format(word, ','.join(chikkar.find(word))))
 
@@ -76,7 +74,7 @@ def _command_search(args, print_usage):
 
     try:
         input_ = fileinput.input(args.in_files, openhook=fileinput.hook_encoded("utf-8"))
-        print_synonyms(args.dictionary, args.enable_verb, input_, stdout_logger)
+        print_synonyms(args.enable_verb, args.dictionary, args.enable_trie, input_, stdout_logger)
     finally:
         if args.fpath_out:
             output.close()
@@ -113,7 +111,10 @@ def main():
     parser_ss = subparsers.add_parser('search', help='(default) see `search -h`', description='Search synonyms')
     parser_ss.add_argument('-d', dest='dictionary', metavar='file', default=None,
                            help='synonym dictionary (default: system synonym dictionary)')
-    parser_ss.add_argument('-e', dest='enable_verb', action='store_true', default=False,
+    parser_ss.add_argument('-et', dest='enable_trie', action='store_true', default=False,
+                           help='If enable_trie is False, a search by synonym group IDs takes precedence '
+                                'over a search by the headword.')
+    parser_ss.add_argument('-ev', dest='enable_verb', action='store_true', default=False,
                            help='Enable verb and adjective synonyms.')
     parser_ss.add_argument('-o', dest='fpath_out', metavar='file', help='the output file')
     parser_ss.add_argument('in_files', metavar='file', nargs=argparse.ZERO_OR_MORE, help='text written in utf-8')
