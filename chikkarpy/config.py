@@ -29,14 +29,12 @@ logger = getLogger(__name__)
 
 def download_dictionary():
     logger.warning("Downloading the Sudachi Synonym dictionary (It may take a while) ...")
-    os.makedirs(DEFAULT_RESOURCEDIR, exist_ok=True)
+    # os.makedirs(DEFAULT_RESOURCEDIR, exist_ok=True)
     _, _msg = urlretrieve(ZIP_URL, ZIP_NAME)
     with ZipFile(ZIP_NAME) as z:
         z.extractall()
-    for f_path in glob(os.path.join(UNZIP_NAME, '*')):
-        shutil.move(f_path, DEFAULT_RESOURCEDIR)
+    os.rename(UNZIP_NAME, DEFAULT_RESOURCEDIR)
 
     os.remove(ZIP_NAME)
-    os.remove(UNZIP_NAME)
 
     logger.warning("... downloaded and placed the dictionary at `{}`.".format(DEFAULT_RESOURCEDIR))
