@@ -1,5 +1,10 @@
 from setuptools import setup, find_packages
 
+from chikkarpy.config import download_dictionary
+
+
+download_dictionary()
+
 setup(
     name="ChikkarPy",
     description="Python version of Chikkar, a library for using the Sudachi synonym dictionary",
