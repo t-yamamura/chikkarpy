@@ -20,11 +20,10 @@ $ echo "閉店" | chikkarpy
 ```
 $ pip install chikkarpy
 ```
-
 ## Step 2. 使用方法
 ### コマンドライン
 ```
-$ echo "金" | chikkarpy
+$ echo "閉店" | chikkarpy
 閉店    クローズ,close,店仕舞い
 ```
 chikkarpyは入力された単語を見て一致する同義語のリストを返します。
@@ -64,5 +63,5 @@ print(chikkar.find("開放"))
 Before using new dictionary, you need to create a binary format dictionary.
 
 ```
-$ chikkarpy build -o system.dic synonym_dict.csv
+$ chikkarpy build -i synonym_dict.csv -o system.dic 
 ```
