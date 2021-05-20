@@ -28,15 +28,19 @@ logger = getLogger(__name__)
 
 
 def download_dictionary():
-    logger.warning("Downloading the Sudachi Synonym dictionary (It may take a while) ...")
-    # os.makedirs(DEFAULT_RESOURCEDIR, exist_ok=True)
-    _, _msg = urlretrieve(ZIP_URL, ZIP_NAME)
-    with ZipFile(ZIP_NAME) as z:
-        z.extractall()
-    logger.warning("UNZIP_NAME" + os.path.abspath(UNZIP_NAME) + UNZIP_NAME)
-    logger.warning(DEFAULT_RESOURCEDIR)
-    os.rename(UNZIP_NAME, DEFAULT_RESOURCEDIR)
+    if not os.path.exists(DEFAULT_RESOURCEDIR):
 
-    os.remove(ZIP_NAME)
+        logger.warning("Downloading the Sudachi Synonym dictionary (It may take a while) ...")
+        # os.makedirs(DEFAULT_RESOURCEDIR, exist_ok=True)
+        _, _msg = urlretrieve(ZIP_URL, ZIP_NAME)
+        with ZipFile(ZIP_NAME) as z:
+            z.extractall()
+        logger.warning("UNZIP_NAME" + os.path.abspath(UNZIP_NAME) + UNZIP_NAME)
+        logger.warning(DEFAULT_RESOURCEDIR)
+        os.rename(UNZIP_NAME, DEFAULT_RESOURCEDIR)
 
-    logger.warning("... downloaded and placed the dictionary at `{}`.".format(DEFAULT_RESOURCEDIR))
+        os.remove(ZIP_NAME)
+
+        logger.warning("... downloaded and placed the dictionary at `{}`.".format(DEFAULT_RESOURCEDIR))
+    else:
+        logger.warning("DEFAULT_RESOURCEDIR is existed.")
