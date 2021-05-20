@@ -1,7 +1,5 @@
 import os
-import shutil
 
-from glob import glob
 from logging import getLogger
 from pathlib import Path
 from urllib.parse import urlparse
@@ -29,14 +27,13 @@ logger = getLogger(__name__)
 
 def download_dictionary():
     if not os.path.exists(DEFAULT_RESOURCEDIR):
-
         logger.warning("Downloading the Sudachi Synonym dictionary (It may take a while) ...")
-        # os.makedirs(DEFAULT_RESOURCEDIR, exist_ok=True)
+
         _, _msg = urlretrieve(ZIP_URL, ZIP_NAME)
         with ZipFile(ZIP_NAME) as z:
             z.extractall()
-        os.rename(UNZIP_NAME, DEFAULT_RESOURCEDIR)
 
+        os.rename(UNZIP_NAME, DEFAULT_RESOURCEDIR)
         os.remove(ZIP_NAME)
 
         logger.warning("... downloaded and placed the dictionary at `{}`.".format(DEFAULT_RESOURCEDIR))

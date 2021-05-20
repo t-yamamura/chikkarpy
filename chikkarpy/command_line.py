@@ -107,8 +107,8 @@ def main():
 
     # root, search synonyms
     parser_ss = subparsers.add_parser('search', help='(default) see `search -h`', description='Search synonyms')
-    parser_ss.add_argument('-d', dest='dictionary', metavar='file',
-                           help='synonym dictionary')
+    parser_ss.add_argument('-d', dest='dictionary', metavar='file', default='',
+                           help='synonym dictionary (default: system synonym dictionary)')
     parser_ss.add_argument('-e', dest='enable_verb', action='store_true', default=False,
                            help='Enable verb and adjective synonyms.')
     parser_ss.add_argument('-o', dest='fpath_out', metavar='file', help='the output file')
