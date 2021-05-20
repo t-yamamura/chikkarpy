@@ -14,7 +14,7 @@ setup(
     license="Apache-2.0",
     author="Works Applications",
     packages=find_packages(include=["chikkarpy", "chikkarpy.*"]),
-    package_data={"": ["resources/*.dic"]},
+    package_data={"": ["resources/*"]},
     entry_points={
         "console_scripts": ["chikkarpy=chikkarpy.command_line:main"]
     },
