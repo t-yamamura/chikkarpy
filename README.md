@@ -13,11 +13,7 @@ chikkarpy は [Sudachi 同義語辞書](https://github.com/WorksApplications/Sud
 $ pip install chikkarpy
 
 $ echo "閉店" | chikkarpy
-クローズ,close,店仕舞い 000005
-
-$ echo "金" | chikkarpy
-お金,マネー,money,カネ  000020
-金色,黄金色,ゴールド,gold,黄金  013372
+閉店    クローズ,close,店仕舞い
 ```
 
 ## Step 1. chikkarpyのインストール
@@ -29,12 +25,11 @@ $ pip install chikkarpy
 ### コマンドライン
 ```
 $ echo "金" | chikkarpy
-お金,マネー,money,カネ  000020
-金色,黄金色,ゴールド,gold,黄金  013372
+閉店    クローズ,close,店仕舞い
 ```
 chikkarpyは入力された単語を見て一致する同義語のリストを返します。
-複数の同義語グループがある場合は行で区別されます。
-出力は`同義語リスト\t同義語グループID`の形式です。
+同義語辞書内の曖昧性フラグが`1`の見出し語をトリガーにすることはできません。
+出力は`クエリ\t同義語リスト`の形式です。
 
 ### python ライブラリ
 使用例
@@ -50,8 +45,16 @@ chikkar.add_dictionary(system_dic)
 print(chikkar.find("閉店"))
 # => ['クローズ', 'close', '店仕舞い']
 
-print(chikkar.find("閉店", group_ids=[5])) #グループIDによるフィルタリング
+print(chikkar.find("閉店", group_ids=[5])) # グループIDによる検索
 # => ['クローズ', 'close', '店仕舞い']
+
+print(chikkar.find("開放"))
+# => ['オープン', 'open']
+
+chikkar.enable_verb() # 用言の出力制御（デフォルトは体言のみ出力）
+print(chikkar.find("開放"))
+# => ['開け放す', '開く', 'オープン', 'open']
+
 ```
 
 

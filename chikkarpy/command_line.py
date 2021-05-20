@@ -60,9 +60,8 @@ def _command_search(args, print_usage):
         return
 
     stdout_logger = logging.getLogger(__name__)
-    output = sys.stdout
-    if args.fpath_out:
-        output = open(args.fpath_out, "w", encoding="utf-8")
+    
+    output = open(args.fpath_out, "w", encoding="utf-8") if args.fpath_out else sys.stdout
 
     handler = logging.StreamHandler(output)
     handler.setLevel(logging.DEBUG)
@@ -96,7 +95,7 @@ def build_dictionary(input_file, output_file, description):
 
 
 def _command_build(args, print_usage):
-    build_dictionary(args.input_file, args.output_file, args.description)
+    build_dictionary(args.input_file, args.out_file, args.description)
 
 
 def main():
