@@ -23,4 +23,3 @@ jobs:
       - name: Code style check by flake8
         run: |
           cd scripts && ./format.sh
-          echo "::warning warning test"
