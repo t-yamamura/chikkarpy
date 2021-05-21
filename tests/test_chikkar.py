@@ -44,6 +44,7 @@ class TestChikkar(unittest.TestCase):
         self.assertCountEqual(self.chikkar.find("open"), ["開放", "オープン"])
         self.chikkar.add_dictionary(self.user2_dict)
         self.assertFalse(self.chikkar.find("open"))
+        self.assertCountEqual(self.chikkar.find("開店"), ["始業", "営業開始", "店開き", "オープン", "open"])
 
     def test_enable_verb(self):
         self.chikkar.add_dictionary(self.user_dict)

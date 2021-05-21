@@ -41,13 +41,13 @@ class Chikkar(object):
             list[str]: a list of synonym head words
         """
         for dictionary in self._dictionaries:
-            group_ids = dictionary.lookup(word, group_ids)
-            if len(group_ids) == 0:
+            gids = dictionary.lookup(word, group_ids)
+            if len(gids) == 0:
                 continue
 
             synonyms = []
-            for group_id in group_ids:
-                ret = self.gather_head_word(word, group_id, dictionary)
+            for gid in gids:
+                ret = self.gather_head_word(word, gid, dictionary)
                 if ret:
                     synonyms += ret
             return synonyms
