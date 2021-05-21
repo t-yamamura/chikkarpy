@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-flake8 --show --config=flake8.cfg ../setup.py ../chikkarpy ../tests >> .log 2>&1
+cd $(dirname $0) && cd ..
 
-HEADER=$(cat license-header.txt)
-
-cd ..
+flake8 --show --config=scripts/flake8.cfg setup.py chikkarpy/ tests/ >> scripts/.log 2>&1
 
 array=()
 for FILE in $(find ./chikkarpy -type f -name "*.py"); do
@@ -15,6 +13,7 @@ for FILE in $(find ./tests -type f -name "*.py"); do
 done
 array+=( ./setup.py )
 
+HEADER=$(cat scripts/license-header.txt)
 for FILE in ${array[@]}; do
     FILE_CONTENTS=$(cat "${FILE}")
     if [[ ${FILE_CONTENTS} != ${HEADER}* ]]; then

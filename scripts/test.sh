@@ -1,27 +1,13 @@
 #!/usr/bin/env bash
 
-function copy_dictionary() {
-  DIC_TYPE=$1
-  if [[ ! -f "../tests/resources/${DIC_TYPE}.dic" ]]; then
-    cp ../.travis/"${DIC_TYPE}".dic.test ../tests/resources/"${DIC_TYPE}".dic
-  fi
-  DIFF=$(diff ../.travis/"${DIC_TYPE}".dic.test ../tests/resources/"${DIC_TYPE}".dic)
-  if [[ "$DIFF" != "" ]]; then
-      cp ../.travis/"${DIC_TYPE}".dic.test ../tests/resources/"${DIC_TYPE}".dic
-  fi
-}
+cd $(dirname $0) && cd ..
 
-echo $(dirname $0)
+TEST_RESOURCES_DIR="tests/resources/"
+for DIC_TYPE in {system,user,user2}; do
+  IN="${TEST_RESOURCES_DIR}${DIC_TYPE}.csv"
+  OUT="${TEST_RESOURCES_DIR}${DIC_TYPE}.dic"
+  DES="the ${DIC_TYPE} dictionary for the unit tests"
+  python -c "import sys; from chikkarpy.command_line import build_dictionary; build_dictionary(sys.argv[1], sys.argv[2], sys.argv[3]);" "${IN}" "${OUT}" "${DES}"
+done
 
-copy_dictionary "system"
-copy_dictionary "user"
-copy_dictionary "user2"
-
-# unittest
-# shellcheck disable=SC2006
-RES=`cd ..; /usr/bin/python3 -m unittest discover tests -p '*test*.py' 2>&1`
-# shellcheck disable=SC2006
-RES_TAIL=`echo "$RES" | tail -1`
-if [[ $RES_TAIL != "OK" ]]; then
-    >&2 echo "$RES"
-fi
+python -m unittest discover tests -p '*test*.py'
