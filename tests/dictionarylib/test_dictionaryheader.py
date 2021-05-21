@@ -1,6 +1,5 @@
 import mmap
 import os
-
 from unittest import TestCase
 
 from chikkarpy.dictionarylib.dictionaryheader import DictionaryHeader

@@ -1,7 +1,7 @@
 import struct
 
-from .jtypedbytebuffer import JTypedByteBuffer
 from . import dictionaryversion
+from .jtypedbytebuffer import JTypedByteBuffer
 
 
 class DictionaryHeader(object):

@@ -1,13 +1,11 @@
 import os
-
-import unittest
-# from unittest import TestCase
+from unittest import TestCase
 
 from chikkarpy import Chikkar
 from chikkarpy.dictionarylib import Dictionary
 
 
-class TestChikkar(unittest.TestCase):
+class TestChikkar(TestCase):
 
     def setUp(self):
         dict_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources')
@@ -50,7 +48,3 @@ class TestChikkar(unittest.TestCase):
         self.chikkar.add_dictionary(self.user_dict)
         self.chikkar.enable_verb()
         self.assertCountEqual(self.chikkar.find("open"), ["開放", "開け放す", "開く", "オープン"])
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -63,7 +63,7 @@ def _command_search(args, print_usage):
         return
 
     stdout_logger = logging.getLogger(__name__)
-    
+
     output = open(args.fpath_out, "w", encoding="utf-8") if args.fpath_out else sys.stdout
 
     handler = logging.StreamHandler(output)

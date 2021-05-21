@@ -1,6 +1,6 @@
-from setuptools import setup, find_packages
-
 from chikkarpy.config import download_dictionary
+
+from setuptools import find_packages, setup
 
 
 download_dictionary()

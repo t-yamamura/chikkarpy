@@ -1,7 +1,7 @@
-from ..config import get_system_dictionary_path
-from ..synonymgroup import SynonymGroup
 from .binarydictionary import BinaryDictionary
 from .synonym_group_list import SynonymGroupList
+from ..config import get_system_dictionary_path
+from ..synonymgroup import SynonymGroup
 
 
 class Dictionary(object):
@@ -20,7 +20,7 @@ class Dictionary(object):
         self.filename = filename if filename is not None else get_system_dictionary_path()
         self.dict_ = BinaryDictionary.from_system_dictionary(self.filename)
         self.enable_trie = enable_trie
-        self.group_list = SynonymGroupList(self.dict_.bytes, self.dict_.offset)
+        self.group_list = SynonymGroupList(self.dict_.bytes_, self.dict_.offset)
 
     def lookup(self, word, group_ids):
         """Returns a synonym group ID that contains the specified headword or a specified synonym group ID.

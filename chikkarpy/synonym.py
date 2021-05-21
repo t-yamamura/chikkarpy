@@ -63,4 +63,3 @@ class Synonym(object):
     def variant_type(self):
         """int: the variant type of this synonym"""
         return self._flags.variant_type
-

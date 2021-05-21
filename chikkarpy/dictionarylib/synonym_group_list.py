@@ -1,8 +1,8 @@
 import struct
 
+from ..dictionarylib.flags import Flags
 from ..synonym import Synonym
 from ..synonymgroup import SynonymGroup
-from ..dictionarylib.flags import Flags
 
 
 class SynonymGroupList(object):
@@ -15,7 +15,7 @@ class SynonymGroupList(object):
             offset (int): byte offset
         """
         self.bytes_ = bytes_
-        orig_pos = self.bytes_.tell()
+        self.orig_pos = self.bytes_.tell()
         self.bytes_.seek(offset)
         self.size = int.from_bytes(self.bytes_.read(4), 'little', signed=True)
 

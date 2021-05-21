@@ -1,13 +1,14 @@
-from _io import BufferedWriter, TextIOWrapper
+from io import BufferedWriter, TextIOWrapper
 from logging import DEBUG, StreamHandler, getLogger
 
 from dartsclone import DoubleArray
+
 from sortedcontainers import SortedDict
 
-from ..synonym import Synonym
-from .format import Column, IsNoun, Ambiguity, Form, Acronym, Variant
 from .flags import Flags
+from .format import Acronym, Ambiguity, Column, Form, IsNoun, Variant
 from .jtypedbytebuffer import JTypedByteBuffer
+from ..synonym import Synonym
 
 
 class SynonymWithGroupId:
@@ -22,19 +23,24 @@ class SynonymWithGroupId:
         self._group_id = group_id
 
     @property
-    def group_id(self): return self._group_id
+    def group_id(self):
+        return self._group_id
 
     @property
-    def headword(self): return self._synonym.head_word
+    def headword(self):
+        return self._synonym.head_word
 
     @property
-    def lexeme_ids(self): return self._synonym.lexeme_ids
+    def lexeme_ids(self):
+        return self._synonym.lexeme_ids
 
     @property
-    def flags(self): return self._synonym.flags
+    def flags(self):
+        return self._synonym.flags
 
     @property
-    def category(self): return self._synonym.category
+    def category(self):
+        return self._synonym.category
 
 
 class DictionaryBuilder:

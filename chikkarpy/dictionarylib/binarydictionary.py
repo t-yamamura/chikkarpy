@@ -1,4 +1,3 @@
-
 import mmap
 
 from .dictionaryheader import DictionaryHeader
@@ -66,7 +65,7 @@ class BinaryDictionary(object):
         self._bytes.close()
 
     @property
-    def bytes(self):
+    def bytes_(self):
         """mmap.mmap: a memory-mapped dictionary"""
         return self._bytes
 

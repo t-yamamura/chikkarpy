@@ -1,5 +1,4 @@
 import os
-
 from unittest import TestCase
 
 from chikkarpy.dictionarylib import Dictionary
