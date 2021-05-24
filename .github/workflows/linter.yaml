@@ -22,4 +22,4 @@ jobs:
       
       - name: Code style check by flake8
         run: |
-          cd scripts && ./format.sh
+          cd scripts && ./lint.sh
